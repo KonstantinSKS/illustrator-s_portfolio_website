@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}ABOUT + CONTACT{%endblock %} 
+{% block content %}
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Профиль</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .name {
+        font-size: 32px;
+        font-weight: bold;
+    }
+    .description {
+        margin-top: 10px;
+        align-self: flex-start;
+    }
+    .image {
+        margin-top: 10px;
+    }
+    .links {
+        margin-top: 10px;
+        align-self: flex-end;
+    }
+    .links a {
+        display: block;
+        margin-bottom: 5px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="name">{{ user.name }}</div>
+    <div class="description">
+        {{ user.description }}
+    </div>
+    <img src="{{ user.image_path }}" alt="Фото Человека" height="240px" width="300px" class="image">
+    <div class="links">
+        <a href="mailto:{{ user.email }}" target="_blank">Почта</a>
+        <a href="{{ user.instagram }}" target="_blank">Инстаграм</a>
+        <a href="{{ user.behance }}" target="_blank">Behance</a>
+    </div>
+</div>
+</body>
+</html>
+{% endblock %}

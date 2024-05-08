@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+{% block title %}all_blogs {%endblock %} 
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <!--title>Главная страница</title-->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .filter {
+            text-align: right;
+            padding: 20px;
+        }
+        .blogs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around; /* Равномерно распределяет пространство между элементами */
+            padding: 20px;
+        }
+        .blog {
+            width: 40%; /* Немного меньше 50%, чтобы обеспечить пространство между проектами */
+            margin: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .blog img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="blogs">
+        {% for blog in blogs %}
+        <div class="blog">
+            <a href="{{ url_for('blog_view', id=blog.id) }}"><h2>{{ blog.title }}</h2></a>
+            {% if blog.image %}
+            <p><a href="{{ url_for('blog_view', id=blog.id) }}"><img src="{{ url_for('static', filename='media/' + blog.image) }}" alt="Изображение блога"></a></p>
+            <!--img src="{{ blog.image }}" alt="Изображение блога"-->
+            {% endif %}
+            <p>{{ blog.text }}</p>
+            <div>Дата публикации: {{ blog.pub_date }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}

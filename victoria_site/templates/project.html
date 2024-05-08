@@ -1,0 +1,48 @@
+{% extends "base.html" %} 
+{% block title %}project {{ project.id }}{%endblock %} 
+{% block content %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ project.title or "Проект" }}</title>
+    <style>
+        .project-image img {
+            width: 70%; /* Подстраиваем изображение по ширине контейнера */
+            max-width: 400px; /* Максимальная ширина изображения */
+            height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
+        }
+        .tags {
+            margin-top: 10px;
+            font-size: 16px;
+            font-style: italic;
+        }
+        .tag {
+            display: inline-block;
+            margin-right: 5px;
+            color: #007BFF; /* Синий цвет тэгов для лучшей видимости */
+        }
+    </style>
+</head>
+<body>
+    <div class="project">
+        <h1>{{ project.title or "Без названия" }}</h1>
+        {% if project.image_path %}
+            <div class="project-image">
+                <!-- Обновлённый путь к изображению, учитывающий новую структуру папок -->
+                <img src="{{ url_for('static', filename='media/' + project.image_path) }}" alt="Изображение проекта">
+            </div>
+        {% else %}
+            <p>Изображение отсутствует.</p>
+        {% endif %}
+        <div class="project-description">
+            <p>{{ project.text or "Описание проекта отсутствует." }}</p>
+        </div>
+        <div class="tags">
+            Тэги:
+            {% for tag in project.tags %}
+                <span class="tag">#{{ tag.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock %}
