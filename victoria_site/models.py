@@ -28,8 +28,8 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
     title.verbose_name = 'Заголовок проекта'
-    image_path = db.Column(db.String(256))
-    image_path.verbose_name = 'Изображения'
+    images = db.relationship('Image', backref='project', lazy=True)
+    images.verbose_name = 'Изображения'
     text = db.Column(db.Text, unique=True, nullable=True)
     text.verbose_name = 'Описание проекта'
     tags = db.relationship(
@@ -55,3 +55,12 @@ class Blog(db.Model):
 
     def __repr__(self):
         return f'<Blog {self.title}>'
+
+
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image_path = db.Column(db.String(256), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Image {self.image_path}>'

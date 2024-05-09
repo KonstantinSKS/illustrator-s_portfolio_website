@@ -26,10 +26,11 @@
 <body>
     <div class="project">
         <h1>{{ project.title or "Без названия" }}</h1>
-        {% if project.image_path %}
+        {% if project.images %}
             <div class="project-image">
-                <!-- Обновлённый путь к изображению, учитывающий новую структуру папок -->
-                <img src="{{ url_for('static', filename='media/' + project.image_path) }}" alt="Изображение проекта">
+              {% for image in project.images %}
+                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Project image">
+              {% endfor %}
             </div>
         {% else %}
             <p>Изображение отсутствует.</p>

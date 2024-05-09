@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import (StringField, SubmitField, FileField,
-                     TextAreaField, SelectMultipleField
+                     TextAreaField, SelectMultipleField,
+                     MultipleFileField
                      )  # MultipleFileField widgets
 from wtforms.validators import Length, Optional, DataRequired
 # SelectMultipleField SelectField ??
@@ -22,7 +23,7 @@ class ProjectForm(FlaskForm):
         'Введите заголовок проекта',
         validators=[Length(1, 128), Optional()]
     )
-    image_path = FileField('Загрузить изображение/видео', validators=[
+    image_path = MultipleFileField('Загрузить изображение/видео', validators=[
         FileRequired(),
         FileAllowed(app.config['ALLOWED_EXTENSIONS'],
                     'Недопустимый формат файла!')
