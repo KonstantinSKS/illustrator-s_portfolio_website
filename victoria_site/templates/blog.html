@@ -16,10 +16,11 @@
 <body>
     <div class="blog">
         <h1>{{ blog.title or "Без названия" }}</h1>
-        {% if blog.image %}
+        {% if blog.images %}
             <div class="blog-image">
-                <!-- Обновлённый путь к изображению, учитывающий новую структуру папок -->
-                <img src="{{ url_for('static', filename='media/' + blog.image) }}" alt="Изображение проекта">
+              {% for image in blog.images %}
+                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Blog image">
+              {% endfor %}
             </div>
         {% else %}
             <p>Изображение отсутствует.</p>

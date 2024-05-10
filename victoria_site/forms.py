@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, FileAllowed
-from wtforms import (StringField, SubmitField, FileField,
+from wtforms import (StringField, SubmitField,
                      TextAreaField, SelectMultipleField,
                      MultipleFileField
-                     )  # MultipleFileField widgets
+                     )  # FileField widgets
 from wtforms.validators import Length, Optional, DataRequired
 # SelectMultipleField SelectField ??
 from .models import Tag
@@ -50,7 +50,7 @@ class BLogForm(FlaskForm):
         'Введите заголовок записи',
         validators=[Length(1, 128), Optional()]
     )
-    image = FileField('Загрузить изображение/видео', validators=[
+    image = MultipleFileField('Загрузить изображение/видео', validators=[
         FileAllowed(app.config['ALLOWED_EXTENSIONS'],
                     'Недопустимый формат файла!')
     ])

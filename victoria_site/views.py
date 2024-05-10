@@ -1,11 +1,11 @@
 from datetime import datetime
+import os
 
 from flask import render_template, request, redirect, url_for  # flash
 from werkzeug.utils import secure_filename
-import os
 
 from . import app, db
-from .models import Project, Tag, Blog, Image
+from .models import Project, Tag, Blog, Image, BlogImage
 from .forms import ProjectForm, BLogForm
 
 DESCRIPTION = (
@@ -72,31 +72,46 @@ def blog_view(id):
 def add_blog():
     form = BLogForm()
     if form.validate_on_submit():
-        filename = None
-        if form.image.data:
-            # filename = secure_filename(form.image.data.filename)
-            # filename = os.path.join('static/media/', secure_filename(form.image.data.filename))  # пока оставить
-            filename = secure_filename(form.image.data.filename)
-            form.image.data.save(os.path.join(
-             os.path.join(app.static_folder,
-                          app.config['UPLOAD_FOLDER']), filename))
-            # filepath = os.path.join('static/media/', filename)
-
-        # file = form.image.data
-        # filename = secure_filename(file.filename)
-        # file.save(os.path.join(
-        #     os.path.join(app.static_folder,
-        #                  app.config['UPLOAD_FOLDER']), filename))
-        # filepath = os.path.join('static/media/', filename)
         blog = Blog(
             title=form.title.data,
-            image=filename,
-            text=form.text.data,
+            text=form.text.data
         )
         db.session.add(blog)
+        filename = None
+        files = request.files.getlist('image')
+        if files:
+            for file in files:
+                if file and file.filename:
+                    filename = secure_filename(file.filename)
+                    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
+                    unique_filename = f"{timestamp}_{filename}"
+                    filepath = os.path.join(app.config['UPLOAD_FOLDER'],
+                                            unique_filename)
+                    file.save(os.path.join(app.static_folder, filepath))
+                    image = BlogImage(image_path=filepath, blog=blog)
+                    db.session.add(image)
         db.session.commit()
         return redirect(url_for('all_blogs_view'))
     return render_template('add_blog.html', form=form)
+
+    # код на одну картинку
+    # form = BLogForm()
+    # if form.validate_on_submit():
+    #     filename = None
+    #     if form.image.data:
+    #         filename = secure_filename(form.image.data.filename)
+    #         form.image.data.save(os.path.join(
+    #          os.path.join(app.static_folder,
+    #                       app.config['UPLOAD_FOLDER']), filename))
+    #     blog = Blog(
+    #         title=form.title.data,
+    #         image=filename,
+    #         text=form.text.data,
+    #     )
+    #     db.session.add(blog)
+    #     db.session.commit()
+    #     return redirect(url_for('all_blogs_view'))
+    # return render_template('add_blog.html', form=form)
 
 
 @app.route('/add_project', methods=['GET', 'POST'])
