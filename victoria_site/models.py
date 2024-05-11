@@ -17,8 +17,6 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
     name.verbose_name = 'Название тэга'
-    # slug = db.Column(db.String(50), unique=True)
-    # slug.verbose_name = 'Уникальный слаг'
 
     def __repr__(self):
         return f'#{self.name}'
@@ -28,7 +26,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
     title.verbose_name = 'Заголовок проекта'
-    images = db.relationship('Image', backref='project', lazy=True)
+    images = db.relationship('ProjectImage', backref='project', lazy=True)
     images.verbose_name = 'Изображения'
     text = db.Column(db.Text, unique=True, nullable=True)
     text.verbose_name = 'Описание проекта'
@@ -56,10 +54,12 @@ class Blog(db.Model):
         return f'<Blog {self.title}>'
 
 
-class Image(db.Model):
+class ProjectImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image_path = db.Column(db.String(256), nullable=False)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    project_id = db.Column(db.Integer,
+                           db.ForeignKey('project.id'),
+                           nullable=False)
 
     def __repr__(self):
         return f'<Image {self.image_path}>'
@@ -68,7 +68,9 @@ class Image(db.Model):
 class BlogImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image_path = db.Column(db.String(256))  # , nullable=False ? True
-    blog_id = db.Column(db.Integer, db.ForeignKey('blog.id'), nullable=False)
+    blog_id = db.Column(db.Integer,
+                        db.ForeignKey('blog.id'),
+                        nullable=False)
 
     def __repr__(self):
         return f'<Image {self.image_path}>'

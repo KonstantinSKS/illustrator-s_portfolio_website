@@ -5,7 +5,7 @@ from flask import render_template, request, redirect, url_for  # flash
 from werkzeug.utils import secure_filename
 
 from . import app, db
-from .models import Project, Tag, Blog, Image, BlogImage
+from .models import Project, Tag, Blog, ProjectImage, BlogImage
 from .forms import ProjectForm, BLogForm
 
 DESCRIPTION = (
@@ -28,7 +28,7 @@ def index_view():
     else:
         projects = Project.query.all()
     tags = Tag.query.all()
-    return render_template('index.html',
+    return render_template('main.html',
                            projects=projects,
                            tags=tags,
                            current_tag=tag_filter)
@@ -133,7 +133,7 @@ def add_project():
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'],
                                         unique_filename)
                 file.save(os.path.join(app.static_folder, filepath))
-                image = Image(image_path=filepath, project=project)
+                image = ProjectImage(image_path=filepath, project=project)
                 db.session.add(image)
         selected_tags = Tag.query.filter(
             Tag.id.in_(form.tags_select.data)).all()
