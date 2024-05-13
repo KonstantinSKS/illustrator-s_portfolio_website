@@ -16,7 +16,7 @@ project_tags = db.Table(
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True)
-    name.verbose_name = 'Название тэга'
+    # name.verbose_name = 'Название тэга'
 
     def __repr__(self):
         return f'#{self.name}'
@@ -25,15 +25,17 @@ class Tag(db.Model):
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
-    title.verbose_name = 'Заголовок проекта'
-    images = db.relationship('ProjectImage', backref='project', lazy=True)
-    images.verbose_name = 'Изображения'
+    # title.verbose_name = 'Заголовок проекта'
+    images = db.relationship('ProjectImage', backref='project', lazy=True,
+                             cascade='all, delete-orphan')
+    # images.verbose_name = 'Изображения'
     text = db.Column(db.Text, unique=True, nullable=True)
-    text.verbose_name = 'Описание проекта'
+    # text.verbose_name = 'Описание проекта'
     tags = db.relationship(
         'Tag', secondary=project_tags, lazy='subquery',
-        backref=db.backref('projects', lazy=True))
-    tags.verbose_name = 'Тэги'
+        backref=db.backref('projects', lazy=True,
+                           cascade='all, delete-orphan', single_parent=True))
+    # tags.verbose_name = 'Тэги'
 
     def __repr__(self):
         return f'Project: {self.title}'
@@ -42,13 +44,14 @@ class Project(db.Model):
 class Blog(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
-    title.verbose_name = 'Заголовок блога'
-    images = db.relationship('BlogImage', backref='blog', lazy=True)
-    images.verbose_name = 'Изображения'
+    # title.verbose_name = 'Заголовок блога'
+    images = db.relationship('BlogImage', backref='blog', lazy=True,
+                             cascade='all, delete-orphan')
+    # images.verbose_name = 'Изображения'
     text = db.Column(db.Text, unique=True, nullable=True)
-    text.verbose_name = 'Текст блога'
+    # text.verbose_name = 'Текст блога'
     pub_date = db.Column(db.Date, unique=False, default=date.today)
-    pub_date.verbose_name = 'Дата публикации'
+    # pub_date.verbose_name = 'Дата публикации'
 
     def __repr__(self):
         return f'<Blog {self.title}>'
