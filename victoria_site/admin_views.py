@@ -1,12 +1,12 @@
 # from datetime import datetime
 import os
 
-from flask_admin.form.upload import ImageUploadField, FileUploadField
+from flask_admin.form.upload import ImageUploadField, FileUploadField  # , ImageUploadInput
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, expose
 from wtforms.validators import DataRequired
-# from flask import url_for
-# from markupsafe import Markup
+from flask import url_for
+from markupsafe import Markup
 
 from . import app
 from .models import Project
@@ -22,19 +22,33 @@ class AllProjectsView(AdminIndexView):
 
 class ProjectAdminView(ModelView):
     form_extra_fields = {
-        'images': ImageUploadField(
+        'image_path': ImageUploadField(
             'Images',
             base_path=os.path.join(app.static_folder, app.config['UPLOAD_FOLDER']),
-            url_relative_path=app.config['UPLOAD_FOLDER'],
+            relative_path=os.path.join(app.static_folder, app.config['UPLOAD_FOLDER']),
+            url_relative_path=os.path.join(app.static_folder, app.config['UPLOAD_FOLDER']),
             # validators=[DataRequired()],
             # thumbnail_size=(100, 100, True),
             # multiple_files=True
         )
     }
+
     column_list = ['id', 'title', 'text', 'images', 'tags']
     column_sortable_list = ('id', 'title')  # Не работает по 'tags'
     column_searchable_list = ['title', 'text']
     column_filters = ['title', 'tags']
+
+    def _list_thumbnail(view, context, model, name):
+        if not model.images:
+            return ''
+
+        return Markup(
+            f'<img src="{url_for("static", filename=model.images[0].image_path)}" width="100">'
+        )
+
+    column_formatters = {
+        'images': _list_thumbnail
+    }
 
     def create_form(self, obj=None):
         return super(ProjectAdminView, self).create_form(obj)
