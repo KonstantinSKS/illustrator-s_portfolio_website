@@ -8,4 +8,4 @@ class Config(object):
     SECRET_KEY = os.getenv('SECRET_KEY')
     # SQLALCHEMY_DATABASE_URI = 'postgres://postgres:123@localhost/db'
     UPLOAD_FOLDER = 'media/'
-    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'svg'}

@@ -141,25 +141,3 @@ def add_project():
         db.session.commit()
         return redirect(url_for('index_view'))
     return render_template('add_project.html', form=form)
-
-    # код на одну картинку
-    # form = ProjectForm()
-    # form.tags_select.choices = [(tag.id, tag.name) for tag in Tag.query.all()]
-    # if form.validate_on_submit():
-    #     file = form.image_path.data
-    #     filename = secure_filename(file.filename)  # Надо сделать уникальность имени!!!!
-    #     file.save(os.path.join(
-    #         os.path.join(app.static_folder,
-    #                      app.config['UPLOAD_FOLDER']), filename))
-    #     project = Project(
-    #         title=form.title.data,
-    #         image_path=filename,
-    #         text=form.text.data,
-    #     )
-    #     selected_tags = Tag.query.filter(
-    #         Tag.id.in_(form.tags_select.data)).all()
-    #     project.tags.extend(selected_tags)
-    #     db.session.add(project)
-    #     db.session.commit()
-    #     return redirect(url_for('index_view'))
-    # return render_template('add_project.html', form=form)

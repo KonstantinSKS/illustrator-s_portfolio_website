@@ -1,15 +1,19 @@
 from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
+# from flask_admin.contrib.sqla import ModelView
 
 from . import app, db
 from .models import Project, Tag, Blog, ProjectImage, BlogImage
-from .admin_forms import ProjectAdminView
+from .admin_views import (ProjectAdminView, AllProjectsView, TagsAdminView,
+                          ProjectImagesAdminView, BlogAdminView,
+                          BlogImagesAdminView)
 
 
-admin = Admin(app, name='My_art', template_mode='bootstrap4')
+admin = Admin(app, 'My_art', index_view=AllProjectsView(),
+              template_mode='bootstrap4', url='/')
 # admin.add_view(ModelView(Project, db.session, name='Projects'))
 admin.add_view(ProjectAdminView(Project, db.session, name='Projects'))
-admin.add_view(ModelView(Tag, db.session, name='Tags'))
-admin.add_view(ModelView(ProjectImage, db.session, name='Project_images'))
-admin.add_view(ModelView(Blog, db.session, name='Blogs'))
-admin.add_view(ModelView(BlogImage, db.session, name='Blog_images'))
+admin.add_view(TagsAdminView(Tag, db.session, name='Tags'))
+admin.add_view(ProjectImagesAdminView(ProjectImage, db.session,
+                                      name='Project_images'))
+admin.add_view(BlogAdminView(Blog, db.session, name='Blogs'))
+admin.add_view(BlogImagesAdminView(BlogImage, db.session, name='Blog_images'))
