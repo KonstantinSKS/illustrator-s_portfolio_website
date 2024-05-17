@@ -5,8 +5,8 @@ from flask import render_template, request, redirect, url_for  # flash
 from werkzeug.utils import secure_filename
 
 from . import app, db
-from .models import Project, Tag, Blog, ProjectImage, BlogImage
-from .forms import ProjectForm, BLogForm
+from .models import Project, Tag, Blog, BlogImage, ProjectImage
+from .forms import BLogForm  # ProjectForm
 
 DESCRIPTION = (
     'My name is Victoria Stebleva,\n'

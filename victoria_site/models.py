@@ -24,7 +24,7 @@ class Tag(db.Model):
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
-    images = db.relationship('ProjectImage', backref='project', lazy=True,
+    images = db.relationship('ProjectImage', back_populates='project', lazy=True,  # backref='project'
                              cascade='all, delete-orphan')
     text = db.Column(db.Text, unique=True, nullable=True)
     tags = db.relationship(
@@ -54,6 +54,7 @@ class ProjectImage(db.Model):
     project_id = db.Column(db.Integer,
                            db.ForeignKey('project.id'),
                            nullable=False)
+    project = db.relationship('Project', back_populates='images')  # новое
 
     def __repr__(self):
         return f'<Image {self.image_path}>'

@@ -1,5 +1,5 @@
 from flask_admin import Admin
-# from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.sqla import ModelView
 
 from . import app, db
 from .models import Project, Tag, Blog, ProjectImage, BlogImage
