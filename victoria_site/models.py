@@ -24,13 +24,13 @@ class Tag(db.Model):
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
-    images = db.relationship('ProjectImage', back_populates='project', lazy=True,  # backref='project'
+    images = db.relationship('ProjectImage', back_populates='project',
+                             lazy='subquery',  # lazy=True
                              cascade='all, delete-orphan')
-    text = db.Column(db.Text, unique=True, nullable=True)
-    tags = db.relationship(
-        'Tag', secondary=project_tags, lazy='subquery',
-        backref=db.backref('projects', lazy=True,
-                           cascade='all, delete-orphan', single_parent=True))
+    text = db.Column(db.Text, unique=False, nullable=True)  # unique=False НЕ СОХРАНЯЕТ ПУСТОЙ ТЕКСТ!!!!
+    tags = db.relationship('Tag', secondary='project_tags',
+                           lazy='subquery',
+                           backref=db.backref('projects', lazy=True))
 
     def __repr__(self):
         return f'Project: {self.title}'

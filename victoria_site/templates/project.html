@@ -33,13 +33,12 @@
               {% endfor %}
             </div>
         {% else %}
-            <p>Изображение отсутствует.</p>
+            <p>No image.</p>
         {% endif %}
         <div class="project-description">
-            <p>{{ project.text or "Описание проекта отсутствует." }}</p>
+            <p>{{ project.text }}</p>
         </div>
         <div class="tags">
-            Тэги:
             {% for tag in project.tags %}
                 <span class="tag">#{{ tag.name }}</span>
             {% endfor %}

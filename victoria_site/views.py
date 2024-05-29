@@ -8,15 +8,25 @@ from . import app, db
 from .models import Project, Tag, Blog, BlogImage, ProjectImage
 from .forms import BLogForm  # ProjectForm
 
-DESCRIPTION = (
-    'My name is Victoria Stebleva,\n'
-    'I am an international published illustrator and author-illustrator currently living in Serbia.\n'
-    'My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,\n'
-    'editorial illustrations and even more.\n'
-    'I am fond of motorbike traveling, nonfiction literature, rock music, and pets.\n'
-    'Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,\n'
-    'Yoyo Books, Wonderbly.'
-)
+# DESCRIPTION = (
+#     'My name is Victoria Stebleva,\n'
+#     'I am an international published illustrator and author-illustrator currently living in Serbia.\n'
+#     'My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,\n'
+#     'editorial illustrations and even more.\n'
+#     'I am fond of motorbike traveling, nonfiction literature, rock music, and pets.\n'
+#     'Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,\n'
+#     'Yoyo Books, Wonderbly.'
+# )
+
+DESCRIPTION = """
+    My name is Victoria Stebleva,
+    I am an international published illustrator and author-illustrator currently living in Serbia.
+    My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,
+    editorial illustrations and even more.
+    I am fond of motorbike traveling, nonfiction literature, rock music, and pets.
+    Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,
+    Yoyo Books, Wonderbly.
+"""
 
 
 @app.route('/')
@@ -94,50 +104,31 @@ def add_blog():
         return redirect(url_for('all_blogs_view'))
     return render_template('add_blog.html', form=form)
 
-    # код на одну картинку
-    # form = BLogForm()
-    # if form.validate_on_submit():
-    #     filename = None
-    #     if form.image.data:
-    #         filename = secure_filename(form.image.data.filename)
-    #         form.image.data.save(os.path.join(
-    #          os.path.join(app.static_folder,
-    #                       app.config['UPLOAD_FOLDER']), filename))
-    #     blog = Blog(
-    #         title=form.title.data,
-    #         image=filename,
-    #         text=form.text.data,
-    #     )
-    #     db.session.add(blog)
-    #     db.session.commit()
-    #     return redirect(url_for('all_blogs_view'))
-    # return render_template('add_blog.html', form=form)
 
-
-@app.route('/add_project', methods=['GET', 'POST'])
-def add_project():
-    form = ProjectForm()
-    form.tags_select.choices = [(tag.id, tag.name) for tag in Tag.query.all()]
-    if form.validate_on_submit():
-        project = Project(
-            title=form.title.data,
-            text=form.text.data
-        )
-        db.session.add(project)
-        files = request.files.getlist('image_path')
-        for file in files:
-            if file and file.filename:
-                filename = secure_filename(file.filename)
-                timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
-                unique_filename = f"{timestamp}_{filename}"
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                        unique_filename)
-                file.save(os.path.join(app.static_folder, filepath))
-                image = ProjectImage(image_path=filepath, project=project)
-                db.session.add(image)
-        selected_tags = Tag.query.filter(
-            Tag.id.in_(form.tags_select.data)).all()
-        project.tags.extend(selected_tags)
-        db.session.commit()
-        return redirect(url_for('index_view'))
-    return render_template('add_project.html', form=form)
+# @app.route('/add_project', methods=['GET', 'POST'])
+# def add_project():
+#     form = ProjectForm()
+#     form.tags_select.choices = [(tag.id, tag.name) for tag in Tag.query.all()]
+#     if form.validate_on_submit():
+#         project = Project(
+#             title=form.title.data,
+#             text=form.text.data
+#         )
+#         db.session.add(project)
+#         files = request.files.getlist('image_path')
+#         for file in files:
+#             if file and file.filename:
+#                 filename = secure_filename(file.filename)
+#                 timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
+#                 unique_filename = f"{timestamp}_{filename}"
+#                 filepath = os.path.join(app.config['UPLOAD_FOLDER'],
+#                                         unique_filename)
+#                 file.save(os.path.join(app.static_folder, filepath))
+#                 image = ProjectImage(image_path=filepath, project=project)
+#                 db.session.add(image)
+#         selected_tags = Tag.query.filter(
+#             Tag.id.in_(form.tags_select.data)).all()
+#         project.tags.extend(selected_tags)
+#         db.session.commit()
+#         return redirect(url_for('index_view'))
+#     return render_template('add_project.html', form=form)
