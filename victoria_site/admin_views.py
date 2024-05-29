@@ -58,7 +58,7 @@ class ProjectAdminView(ModelView):
     form_excluded_columns = ['images']
     form_extra_fields = {
         'image_path': MultipleFileField('Image'),
-        #'existing_images': ImageListField('Existing Images')
+        # 'existing_images': ImageListField('Existing Images')
     }
 
     def _list_thumbnail(view, context, model, name):
