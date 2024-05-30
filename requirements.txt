@@ -4,6 +4,7 @@ Werkzeug==2.3.7
 Flask-SQLAlchemy==3.1.1
 WTForms==3.1.2
 Flask-WTF==1.2.1
-Flask-Migrate==4.0.5
+# Flask-Migrate==4.0.5
+Flask-Migrate==4.0.7
 Flask-Admin==1.6.1
 pillow==10.3.0

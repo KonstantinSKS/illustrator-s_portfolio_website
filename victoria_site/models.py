@@ -1,6 +1,6 @@
 from datetime import date
 
-from . import db
+from . import db, app
 
 project_tags = db.Table(
     'project_tags',
@@ -41,7 +41,7 @@ class Blog(db.Model):
     title = db.Column(db.String(128), nullable=True)
     images = db.relationship('BlogImage', backref='blog', lazy=True,
                              cascade='all, delete-orphan')
-    text = db.Column(db.Text, unique=True, nullable=True)
+    text = db.Column(db.Text, unique=False, nullable=True)
     pub_date = db.Column(db.Date, unique=False, default=date.today)
 
     def __repr__(self):
@@ -69,3 +69,7 @@ class BlogImage(db.Model):
 
     def __repr__(self):
         return f'<Image {self.image_path}>'
+
+
+with app.app_context():
+    db.create_all()

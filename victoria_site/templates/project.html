@@ -25,7 +25,11 @@
 </head>
 <body>
     <div class="project">
-        <h1>{{ project.title or "Без названия" }}</h1>
+        {% if project.title %}
+          <h1>{{ project.title }}</h1>
+        {% else %}
+          <p></p>
+        {% endif %}
         {% if project.images %}
             <div class="project-image">
               {% for image in project.images %}
