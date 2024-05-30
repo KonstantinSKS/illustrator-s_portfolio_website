@@ -1,5 +1,7 @@
 from datetime import date
 
+# from sqlalchemy.orm import validates
+
 from . import db, app
 
 project_tags = db.Table(
@@ -27,10 +29,17 @@ class Project(db.Model):
     images = db.relationship('ProjectImage', back_populates='project',
                              lazy='subquery',  # lazy=True
                              cascade='all, delete-orphan')
-    text = db.Column(db.Text, unique=False, nullable=True)  # unique=False НЕ СОХРАНЯЕТ ПУСТОЙ ТЕКСТ!!!!
+    text = db.Column(db.Text, unique=False, nullable=True)
     tags = db.relationship('Tag', secondary='project_tags',
                            lazy='subquery',
                            backref=db.backref('projects', lazy=True))
+    order = db.Column(db.Integer, nullable=True, default=0)
+
+    # @validates('order')
+    # def validate_order(self, key, value):
+    #     if value < 0:
+    #         raise ValueError("Order must be a positive number")
+    #     return value
 
     def __repr__(self):
         return f'Project: {self.title}'

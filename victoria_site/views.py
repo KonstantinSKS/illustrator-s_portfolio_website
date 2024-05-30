@@ -36,7 +36,8 @@ def index_view():
         projects = Project.query.join(Project.tags).filter(
             Tag.name == tag_filter).all()
     else:
-        projects = Project.query.all()
+        projects = Project.query.order_by(Project.order).all()
+        # projects = Project.query.all()
     tags = Tag.query.all()
     return render_template('main.html',
                            projects=projects,

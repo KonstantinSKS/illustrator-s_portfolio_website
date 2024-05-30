@@ -4,8 +4,9 @@ from flask import request, url_for   # redirect
 # from flask_admin.form.upload import FileUploadField  # , ImageUploadInput ImageUploadField
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, expose   # , form
+# from flask_admin.form import rules
 from markupsafe import Markup
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, NumberRange
 from wtforms import MultipleFileField  # , Field
 
 # from . import app  # , db
@@ -17,18 +18,25 @@ from .utils import (ImageListField, save_images, delete_images_in_editing,
 class AllProjectsView(AdminIndexView):
     @expose('/')
     def admin_projects(self):
-        projects = Project.query.all()
+        projects = Project.query.order_by(Project.order).all()
+        # projects = Project.query.all()
         return self.render('admin/index.html', projects=projects)
 
 
 class ProjectAdminView(ModelView):
-    column_list = ['id', 'title', 'text', 'images', 'tags']
-    column_sortable_list = ('id', 'title')  # Не работает по 'tags'
+    column_list = ['id', 'order', 'title', 'text', 'images', 'tags']
+    column_sortable_list = ('id', 'order', 'title')  # Не работает по 'tags'
     column_searchable_list = ['title', 'text']
     column_filters = ['title', 'tags']
     form_excluded_columns = ['images']
     form_extra_fields = {
         'image_path': MultipleFileField('Image'),
+    }
+    form_args = {
+        'order': {
+            'validators': [NumberRange
+                           (min=0, message="Order must be a positive number")]
+        }
     }
 
     def _list_thumbnail(view, context, model, name):
@@ -86,10 +94,10 @@ class TagsAdminView(ModelView):
     # column_exclude_list = ['project'] перенести в другую модель и доработать!
 
 
-# class ProjectImagesAdminView(ModelView):
-#     can_create = False
-#     can_delete = False
-#     can_edit = False
+class ProjectImagesAdminView(ModelView):
+    can_create = False
+    can_delete = False
+    can_edit = False
 
 
 class BlogAdminView(ModelView):
