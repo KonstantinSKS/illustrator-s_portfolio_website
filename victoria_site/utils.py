@@ -1,33 +1,44 @@
 from datetime import datetime
 import os
 
-from flask import request  # flash
+from flask import url_for
+from markupsafe import Markup
 from werkzeug.utils import secure_filename
-# from wtforms import MultipleFileField
+from wtforms import Field
 
-from . import app
-from .models import ProjectImage
-
-# import os
-
-# from flask import url_for
-# from markupsafe import Markup
-
-# from . import app
+from . import app, db
 
 
-# def _list_thumbnail(view, context, model, name):
-#     if not model.images:
-#         return ''
-#     url = url_for('static', filename=os.path.join(app.config['UPLOAD_FOLDER'],
-#                                                   model.images))
-#     if model.images.split('.')[-1] in app.config['ALLOWED_EXTENSIONS']:
-#         return Markup(f'<img src={url}" width="100">')
+class ImageListWidget:
+    """ Creates HTML markup for displaying form fields with thumbnails. """
+    def __call__(self, field, **kwargs):
+        thumbnails = ''
+        for image_path in field.data:
+            thumbnails += Markup(
+                f'<div>'
+                f'<img src="{url_for("static", filename=image_path)}" width="100">'
+                f'<input type="checkbox" name="delete_images" value="{image_path}"> Delete<br>'
+                f'</div>'
+            )
+        return Markup(thumbnails)
 
 
-def save_images():
-    project = request.get_data('project.id')
-    files = request.files.getlist('image_path')
+class ImageListField(Field):
+    """Custom form fields for thumbnails."""
+    widget = ImageListWidget()
+
+    def __init__(self, label='', validators=None, **kwargs):
+        super().__init__(label, validators, **kwargs)
+        self.data = kwargs.get('images', [])
+
+    def process_formdata(self, valuelist):
+        self.data = valuelist
+
+
+def save_images(files, model, obj, obj_attr='project'):
+    """Saves images to the static/media folder
+                    and
+    generates unique file names when saving."""
     for file in files:
         if file and file.filename:
             filename = secure_filename(file.filename)
@@ -36,5 +47,65 @@ def save_images():
             filepath = os.path.join(app.config['UPLOAD_FOLDER'],
                                     unique_filename)
             file.save(os.path.join(app.static_folder, filepath))
-            image = ProjectImage(image_path=filepath, project=project)
-            return image
+            # image = model(image_path=filepath, project=obj)
+            image = model(image_path=filepath)
+            setattr(image, obj_attr, obj)  # СПРОСИТЬ как работает эта функция!
+            db.session.add(image)
+
+
+def delete_images_in_editing(delete_image_paths, model):
+    """Allows you to delete images in edit mode"""
+    for image_path in delete_image_paths:
+        image = model.query.filter_by(
+            image_path=image_path).first()
+        if image:
+            try:
+                os.remove(os.path.join(app.static_folder,
+                                       image.image_path))
+            except Exception as e:
+                print(f"Error removing file: {e}")
+            db.session.delete(image)
+
+
+def delete_images(model):
+    """Deletes images when the model object is deleted."""
+    for image in model.images:
+        if image.image_path:
+            try:
+                os.remove(os.path.join(
+                    app.static_folder, image.image_path))
+            except Exception as e:
+                print(f"Error removing file: {e}")
+
+# ЭТО сохранялка из ProjectAdminView- удалить после проверки работоспособности на BLOG !!!
+# for file in files:
+            #     if file and file.filename:
+            #         filename = secure_filename(file.filename)
+            #         timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
+            #         unique_filename = f"{timestamp}_{filename}"
+            #         filepath = os.path.join(app.config['UPLOAD_FOLDER'],
+            #                                 unique_filename)
+            #         file.save(os.path.join(app.static_folder, filepath))
+            #         image = ProjectImage(image_path=filepath, project=model)
+            #         db.session.add(image)
+
+# ЭТО удаление в редактировании из ProjectAdminView- удалить после проверки работоспособности на BLOG !!!
+# for image_path in delete_image_paths:
+            #     image = ProjectImage.query.filter_by(
+            #         image_path=image_path).first()
+            #     if image:
+            #         try:
+            #             os.remove(os.path.join(app.static_folder,
+            #                                    image.image_path))
+            #         except Exception as e:
+            #             print(f"Error removing file: {e}")
+            #         db.session.delete(image)
+
+# # ЭТО каскадное удаление из ProjectAdminView- удалить после проверки работоспособности на BLOG !!!
+# for image in model.images:
+        #     if image.image_path:
+        #         try:
+        #             os.remove(os.path.join(
+        #                 app.static_folder, image.image_path))
+        #         except Exception as e:
+        #             print(f"Error removing file: {e}")

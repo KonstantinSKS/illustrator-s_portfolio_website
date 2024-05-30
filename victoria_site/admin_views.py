@@ -1,46 +1,17 @@
-from datetime import datetime
 import os
 
+from flask import request, url_for   # redirect
 from flask_admin.form.upload import FileUploadField  # , ImageUploadInput ImageUploadField
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, expose   # , form
-from wtforms.validators import DataRequired
-from wtforms import MultipleFileField, Field
-from flask import request, url_for   # redirect
-from werkzeug.utils import secure_filename
 from markupsafe import Markup
+from wtforms.validators import DataRequired
+from wtforms import MultipleFileField  # , Field
 
-from . import app, db
+from . import app  # , db
 from .models import Project, ProjectImage  # , Tag
-# from .forms import ProjectForm
-# from .utils import save_images
-
-# with app.app_context():
-#     tags = Tag.query.all()
-
-
-class ImageListWidget:
-    def __call__(self, field, **kwargs):
-        thumbnails = ''
-        for image_path in field.data:
-            thumbnails += Markup(
-                f'<div>'
-                f'<img src="{url_for("static", filename=image_path)}" width="100">'
-                f'<input type="checkbox" name="delete_images" value="{image_path}"> Delete<br>'
-                f'</div>'
-            )
-        return Markup(thumbnails)
-
-
-class ImageListField(Field):
-    widget = ImageListWidget()
-
-    def __init__(self, label='', validators=None, **kwargs):
-        super().__init__(label, validators, **kwargs)
-        self.data = kwargs.get('images', [])
-
-    def process_formdata(self, valuelist):
-        self.data = valuelist
+from .utils import (ImageListField, save_images, delete_images_in_editing, 
+                    delete_images)
 
 
 class AllProjectsView(AdminIndexView):
@@ -58,7 +29,6 @@ class ProjectAdminView(ModelView):
     form_excluded_columns = ['images']
     form_extra_fields = {
         'image_path': MultipleFileField('Image'),
-        # 'existing_images': ImageListField('Existing Images')
     }
 
     def _list_thumbnail(view, context, model, name):
@@ -90,41 +60,18 @@ class ProjectAdminView(ModelView):
     def on_model_change(self, form, model, is_created):
         files = request.files.getlist('image_path')
         if files:
-            for file in files:
-                if file and file.filename:
-                    filename = secure_filename(file.filename)
-                    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
-                    unique_filename = f"{timestamp}_{filename}"
-                    filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                            unique_filename)
-                    file.save(os.path.join(app.static_folder, filepath))
-                    image = ProjectImage(image_path=filepath, project=model)
-                    db.session.add(image)
+            save_images(files, ProjectImage, model, obj_attr='project')
 
         delete_image_paths = request.form.getlist('delete_images')
         if delete_image_paths:
-            for image_path in delete_image_paths:
-                image = ProjectImage.query.filter_by(
-                    image_path=image_path).first()
-                if image:
-                    try:
-                        os.remove(os.path.join(app.static_folder,
-                                               image.image_path))
-                    except Exception as e:
-                        print(f"Error removing file: {e}")
-                    db.session.delete(image)
+            delete_images_in_editing(delete_image_paths, ProjectImage)
 
         return super(ProjectAdminView, self).on_model_change(
             form, model, is_created)
 
     def on_model_delete(self, model):
-        for image in model.images:
-            if image.image_path:
-                try:
-                    os.remove(os.path.join(
-                        app.static_folder, image.image_path))
-                except Exception as e:
-                    print(f"Error removing file: {e}")
+        delete_images(model)
+
         return super(ProjectAdminView, self).on_model_delete(model)
 
 
