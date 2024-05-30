@@ -15,7 +15,11 @@
 </head>
 <body>
     <div class="blog">
-        <h1>{{ blog.title or "Без названия" }}</h1>
+        {% if blog.title%}
+          <h1>{{ blog.title }}</h1>
+        {% else %}
+          <p></p>
+        {% endif %}
         {% if blog.images %}
             <div class="blog-image">
               {% for image in blog.images %}
@@ -23,10 +27,10 @@
               {% endfor %}
             </div>
         {% else %}
-            <p>Изображение отсутствует.</p>
+            <p></p>
         {% endif %}
         <div class="project-description">
-            <p>{{ blog.text or "Нет записи." }}</p>
+            <p>{{ blog.text }}</p>
         </div>
         <div>Дата публикации: {{ blog.pub_date }}</div>
     </div>
