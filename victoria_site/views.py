@@ -1,12 +1,12 @@
-from datetime import datetime
-import os
+# from datetime import datetime
+# import os
 
-from flask import render_template, request, redirect, url_for  # flash
-from werkzeug.utils import secure_filename
+from flask import render_template, request  # , redirect, url_for
+# from werkzeug.utils import secure_filename
 
-from . import app, db
-from .models import Project, Tag, Blog, BlogImage  # , ProjectImage
-from .forms import BLogForm  # ProjectForm
+from . import app  # , db
+from .models import Project, Tag, Blog
+# from .forms import BLogForm
 
 # DESCRIPTION = (
 #     'My name is Victoria Stebleva,\n'
@@ -31,6 +31,7 @@ DESCRIPTION = """
 
 @app.route('/')
 def index_view():
+    """Renders main page with projects"""
     tag_filter = request.args.get('tag')
     if tag_filter and tag_filter != 'all':
         projects = Project.query.join(Project.tags).filter(
@@ -47,12 +48,14 @@ def index_view():
 
 @app.route('/projects/<int:id>')
 def project_view(id):
+    """Renders project page"""
     project = Project.query.get_or_404(id)
     return render_template('project.html', project=project)
 
 
 @app.route('/about')
 def about_view():
+    """Renders information about an artist"""
     user_info = {
         "name": "Victoria Stebleva",
         "description": DESCRIPTION,  # Вынести в админку
@@ -69,41 +72,42 @@ def about_view():
 
 @app.route('/blogs')
 def all_blogs_view():
+    """Renders main page with blogs"""
     blogs = Blog.query.all()
     return render_template('all_blogs.html', blogs=blogs)
 
 
 @app.route('/blogs/<int:id>')
 def blog_view(id):
+    """Renders blog page"""
     blog = Blog.query.get_or_404(id)
     return render_template('blog.html', blog=blog)
 
-
-@app.route('/add_blog', methods=['GET', 'POST'])
-def add_blog():
-    form = BLogForm()
-    if form.validate_on_submit():
-        blog = Blog(
-            title=form.title.data,
-            text=form.text.data
-        )
-        db.session.add(blog)
-        filename = None
-        files = request.files.getlist('image')
-        if files:
-            for file in files:
-                if file and file.filename:
-                    filename = secure_filename(file.filename)
-                    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
-                    unique_filename = f"{timestamp}_{filename}"
-                    filepath = os.path.join(app.config['UPLOAD_FOLDER'],
-                                            unique_filename)
-                    file.save(os.path.join(app.static_folder, filepath))
-                    image = BlogImage(image_path=filepath, blog=blog)
-                    db.session.add(image)
-        db.session.commit()
-        return redirect(url_for('all_blogs_view'))
-    return render_template('add_blog.html', form=form)
+# @app.route('/add_blog', methods=['GET', 'POST'])
+# def add_blog():
+#     form = BLogForm()
+#     if form.validate_on_submit():
+#         blog = Blog(
+#             title=form.title.data,
+#             text=form.text.data
+#         )
+#         db.session.add(blog)
+#         filename = None
+#         files = request.files.getlist('image')
+#         if files:
+#             for file in files:
+#                 if file and file.filename:
+#                     filename = secure_filename(file.filename)
+#                     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
+#                     unique_filename = f"{timestamp}_{filename}"
+#                     filepath = os.path.join(app.config['UPLOAD_FOLDER'],
+#                                             unique_filename)
+#                     file.save(os.path.join(app.static_folder, filepath))
+#                     image = BlogImage(image_path=filepath, blog=blog)
+#                     db.session.add(image)
+#         db.session.commit()
+#         return redirect(url_for('all_blogs_view'))
+#     return render_template('add_blog.html', form=form)
 
 
 # @app.route('/add_project', methods=['GET', 'POST'])

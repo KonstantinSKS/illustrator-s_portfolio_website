@@ -1,21 +1,17 @@
-# import os
-
-from flask import request, url_for   # redirect
-# from flask_admin.form.upload import FileUploadField  # , ImageUploadInput ImageUploadField
+from flask import request, url_for
 from flask_admin.contrib.sqla import ModelView
-from flask_admin import AdminIndexView, expose   # , form
-# from flask_admin.form import rules
+from flask_admin import AdminIndexView, expose
 from markupsafe import Markup
 from wtforms.validators import DataRequired, NumberRange
-from wtforms import MultipleFileField  # , Field
+from wtforms import MultipleFileField
 
-# from . import app  # , db
-from .models import Project, ProjectImage, BlogImage  # , Tag
+from .models import Project, ProjectImage, BlogImage
 from .utils import (ImageListField, save_images, delete_images_in_editing,
                     delete_images)
 
 
 class AllProjectsView(AdminIndexView):
+    """A custom admin view for displaying all projects"""
     @expose('/')
     def admin_projects(self):
         projects = Project.query.order_by(Project.order).all()
@@ -24,10 +20,12 @@ class AllProjectsView(AdminIndexView):
 
 
 class ProjectAdminView(ModelView):
+    """A custom admin view for creating and editing all projects"""
     column_list = ['id', 'order', 'title', 'text', 'images', 'tags']
-    column_sortable_list = ('id', 'order', 'title')  # Не работает по 'tags'
+    column_sortable_list = ['id', 'order', 'title']
     column_searchable_list = ['title', 'text']
     column_filters = ['title', 'tags']
+    column_editable_list = ['order']
     form_excluded_columns = ['images']
     form_extra_fields = {
         'image_path': MultipleFileField('Image'),
@@ -74,6 +72,11 @@ class ProjectAdminView(ModelView):
         if delete_image_paths:
             delete_images_in_editing(delete_image_paths, ProjectImage)
 
+        for i, image in enumerate(model.images):
+            order_value = request.form.get(f'order_{i}')
+            if order_value is not None:
+                image.order = int(order_value)
+
         return super(ProjectAdminView, self).on_model_change(
             form, model, is_created)
 
@@ -84,24 +87,41 @@ class ProjectAdminView(ModelView):
 
 
 class TagsAdminView(ModelView):
+    """A custom admin view for creating and editing all tags"""
     column_list = ['id', 'name']
     column_sortable_list = ('id', 'name')
-    form_args = {  # Узнать где лучше, в модели или здесь???
+    form_args = {
         'name': dict(label='Name', validators=[DataRequired()]),
     }
     column_searchable_list = ['name']
     form_excluded_columns = ['projects']
-    # column_exclude_list = ['project'] перенести в другую модель и доработать!
 
 
 class ProjectImagesAdminView(ModelView):
+    """A custom admin view for displaying images of all projects"""
+    column_list = ['id', 'project.title', 'project_id', 'images']
+    column_sortable_list = ['id', 'project.title', 'project_id']
+    column_searchable_list = ['project.title']
+
+    def _list_thumbnail(view, context, model, name):
+        if not model.image_path:
+            return ''
+        return Markup(
+            f'<img src="{url_for("static", filename=model.image_path)}" width="100">'
+        )
+
+    column_formatters = {
+        'images': _list_thumbnail
+    }
+
     can_create = False
     can_delete = False
     can_edit = False
 
 
 class BlogAdminView(ModelView):
-    column_list = ['id', 'title', 'text', 'images', 'pub_date']  # 'images',
+    """A custom admin view for creating and editing all blogs"""
+    column_list = ['id', 'title', 'text', 'images', 'pub_date']
     column_sortable_list = ('id', 'title', 'pub_date')
     column_searchable_list = ['title', 'text']
     column_filters = ['title', 'pub_date']
@@ -109,9 +129,12 @@ class BlogAdminView(ModelView):
     form_extra_fields = {
         'image_path': MultipleFileField('Image'),
     }
-    # form_args = { пригодится для других моделей
-    #     'images': dict(label='Images', validators=[DataRequired()]),
-    # }
+    form_args = {
+        'order': {
+            'validators': [NumberRange
+                           (min=0, message="Order must be a positive number")]
+        }
+    }
 
     def _list_thumbnail(view, context, model, name):
         if not model.images:
@@ -148,6 +171,11 @@ class BlogAdminView(ModelView):
         if delete_image_paths:
             delete_images_in_editing(delete_image_paths, BlogImage)
 
+        for i, image in enumerate(model.images):
+            order_value = request.form.get(f'order_{i}')
+            if order_value is not None:
+                image.order = int(order_value)
+
         return super(BlogAdminView, self).on_model_change(
             form, model, is_created)
 
@@ -157,7 +185,23 @@ class BlogAdminView(ModelView):
         return super(BlogAdminView, self).on_model_delete(model)
 
 
-# class BlogImagesAdminView(ModelView):
-#     can_create = False
-#     can_delete = False
-#     can_edit = False
+class BlogImagesAdminView(ModelView):
+    """A custom admin view for displaying images of all blogs"""
+    column_list = ['id', 'blog.title', 'blog_id', 'images']
+    column_sortable_list = ['id', 'blog.title', 'blog_id']
+    column_searchable_list = ['blog.title']
+
+    def _list_thumbnail(view, context, model, name):
+        if not model.image_path:
+            return ''
+        return Markup(
+            f'<img src="{url_for("static", filename=model.image_path)}" width="100">'
+        )
+
+    column_formatters = {
+        'images': _list_thumbnail
+    }
+
+    can_create = False
+    can_delete = False
+    can_edit = False
