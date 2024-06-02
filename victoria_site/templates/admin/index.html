@@ -1,0 +1,50 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<head>
+  <meta charset="UTF-8">
+  <style>
+      body {
+          display: flex;
+          flex-direction: column;
+      }
+      .filter {
+          text-align: right;
+          padding: 20px;
+      }
+      .projects {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          padding: 20px;
+      }
+      .project {
+          width: 40%;
+          margin: 5px;
+          border: 1px solid #ccc;
+          padding: 10px;
+          box-sizing: border-box;
+      }
+      .project img {
+          max-width: 100%;
+          height: auto;
+      }
+  </style>
+</head>
+<body>
+  <div class="projects">
+    {% for project in projects %}
+    <div class="project">
+        <h2>{{ project.title }}</h2>
+        {% if project.images|length > 0 %}
+        <p><a href="{{ url_for('project_view', id=project.id) }}">
+            <img src="{{ url_for('static', filename=project.images[0].image_path) }}" alt="Project image">
+        </a></p>
+        {% endif %}
+        <p>{{ project.text }}</p>
+        <div> {% for tag in project.tags %}<span>#{{ tag.name }} </span>{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+{% endblock %}

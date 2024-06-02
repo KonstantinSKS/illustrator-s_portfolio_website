@@ -25,20 +25,24 @@
 </head>
 <body>
     <div class="project">
-        <h1>{{ project.title or "Без названия" }}</h1>
-        {% if project.image_path %}
+        {% if project.title %}
+          <h1>{{ project.title }}</h1>
+        {% else %}
+          <p></p>
+        {% endif %}
+        {% if project.images %}
             <div class="project-image">
-                <!-- Обновлённый путь к изображению, учитывающий новую структуру папок -->
-                <img src="{{ url_for('static', filename='media/' + project.image_path) }}" alt="Изображение проекта">
+              {% for image in project.images %}
+                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Project image">
+              {% endfor %}
             </div>
         {% else %}
-            <p>Изображение отсутствует.</p>
+            <p>No image.</p>
         {% endif %}
         <div class="project-description">
-            <p>{{ project.text or "Описание проекта отсутствует." }}</p>
+            <p>{{ project.text }}</p>
         </div>
         <div class="tags">
-            Тэги:
             {% for tag in project.tags %}
                 <span class="tag">#{{ tag.name }}</span>
             {% endfor %}
