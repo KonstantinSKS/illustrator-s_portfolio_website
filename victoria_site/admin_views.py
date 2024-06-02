@@ -7,7 +7,7 @@ from wtforms import MultipleFileField
 
 from .models import Project, ProjectImage, BlogImage
 from .utils import (ImageListField, save_images, delete_images_in_editing,
-                    delete_images)
+                    delete_images, order_images)
 
 
 class AllProjectsView(AdminIndexView):
@@ -72,10 +72,7 @@ class ProjectAdminView(ModelView):
         if delete_image_paths:
             delete_images_in_editing(delete_image_paths, ProjectImage)
 
-        for i, image in enumerate(model.images):
-            order_value = request.form.get(f'order_{i}')
-            if order_value is not None:
-                image.order = int(order_value)
+        order_images(model)
 
         return super(ProjectAdminView, self).on_model_change(
             form, model, is_created)
@@ -171,10 +168,7 @@ class BlogAdminView(ModelView):
         if delete_image_paths:
             delete_images_in_editing(delete_image_paths, BlogImage)
 
-        for i, image in enumerate(model.images):
-            order_value = request.form.get(f'order_{i}')
-            if order_value is not None:
-                image.order = int(order_value)
+        order_images(model)
 
         return super(BlogAdminView, self).on_model_change(
             form, model, is_created)

@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 
-from flask import url_for
+from flask import url_for, request
 from markupsafe import Markup
 from werkzeug.utils import secure_filename
 from wtforms import Field
@@ -49,7 +49,7 @@ def save_images(files, model, obj, obj_attr='project'):
                                     unique_filename)
             file.save(os.path.join(app.static_folder, filepath))
             image = model(image_path=filepath)
-            setattr(image, obj_attr, obj)  # ВЫЯСНИТЬ как работает эта функция!
+            setattr(image, obj_attr, obj)
             db.session.add(image)
 
 
@@ -76,3 +76,11 @@ def delete_images(model):
                     app.static_folder, image.image_path))
             except Exception as e:
                 print(f"Error removing file: {e}")
+
+
+def order_images(model):
+    """Sets the order of the images"""
+    for i, image in enumerate(model.images):
+        order_value = request.form.get(f'order_{i}')
+        if order_value is not None:
+            image.order = int(order_value)
