@@ -82,6 +82,7 @@ class BlogImage(db.Model):
 
 
 class User(db.Model):
+    """Admin model"""
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(80), nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -90,9 +91,12 @@ class User(db.Model):
     artist_name = db.Column(db.String(120), nullable=True)
     image = db.Column(db.String(256), nullable=True, default='default.jpg')
     label = db.Column(db.String(256), nullable=True)
-    description = db.Column(db.String(512), nullable=True)
+    description = db.Column(db.Text(512), nullable=True)
     instagram_link = db.Column(db.String(256), nullable=True)
     behance_link = db.Column(db.String(256), nullable=True)
+
+    def __repr__(self):
+        return self.username
 
 
 with app.app_context():

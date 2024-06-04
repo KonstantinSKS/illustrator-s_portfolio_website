@@ -5,7 +5,7 @@ from flask import render_template, request  # , redirect, flash, url_for
 # from werkzeug.utils import secure_filename
 
 from . import app  # , db
-from .models import Project, Tag, Blog
+from .models import Project, Tag, Blog, User
 # from .forms import BLogForm
 
 DESCRIPTION = (
@@ -27,15 +27,15 @@ USER_INFO = {
         "behance": "https://www.behance.net/vika_stebleva"
     }
 
-# DESCRIPTION = """
-#     My name is Victoria Stebleva,
-#     I am an international published illustrator and author-illustrator currently living in Serbia.
-#     My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,
-#     editorial illustrations and even more.
-#     I am fond of motorbike traveling, nonfiction literature, rock music, and pets.
-#     Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,
-#     Yoyo Books, Wonderbly.
-# """
+DESCRIPTION = """
+    My name is Victoria Stebleva,
+    I am an international published illustrator and author-illustrator currently living in Serbia.
+    My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,
+    editorial illustrations and even more.
+    I am fond of motorbike traveling, nonfiction literature, rock music, and pets.
+    Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,
+    Yoyo Books, Wonderbly.
+"""
 
 
 @app.route('/')
@@ -53,7 +53,7 @@ def index_view():
                            projects=projects,
                            tags=tags,
                            current_tag=tag_filter,
-                           user=USER_INFO)
+                           user=User.query.first())
 
 
 @app.route('/projects/<int:id>')
@@ -61,7 +61,7 @@ def project_view(id):
     """Renders project page"""
     project = Project.query.get_or_404(id)
     return render_template('project.html', project=project,
-                           user=USER_INFO)
+                           user=User.query.first())
 
 
 @app.route('/about')
@@ -75,7 +75,7 @@ def about_view():
     #     "instagram": "https://www.instagram.com/vika_stebleva/",
     #     "behance": "https://www.behance.net/vika_stebleva"
     # }
-    return render_template('about.html', user=USER_INFO)
+    return render_template('about.html', user=User.query.first())
 
 
 # ДОРАБОТАТЬ БЛОГИ!!!!! название вью, шаблоны!!!
@@ -86,7 +86,7 @@ def all_blogs_view():
     """Renders main page with blogs"""
     blogs = Blog.query.all()
     return render_template('all_blogs.html', blogs=blogs,
-                           user=USER_INFO)
+                           user=User.query.first())
 
 
 @app.route('/blogs/<int:id>')
@@ -94,7 +94,7 @@ def blog_view(id):
     """Renders blog page"""
     blog = Blog.query.get_or_404(id)
     return render_template('blog.html', blog=blog,
-                           user=USER_INFO)
+                           user=User.query.first())
 
 
 # @app.route('/copy-email')

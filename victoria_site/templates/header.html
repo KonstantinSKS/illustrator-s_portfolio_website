@@ -1,9 +1,13 @@
 <header class="header">
     <div class="container">
         <div class="header-content">
+            {% if user.label %}
+                    <img src="{{ url_for('static', filename=user.label) }}" class="label-image">
+            {% else %}
             <div class="header-left">
-                <span class="artist-name">{{ user.name }}</span>
+                <span class="artist-name">{{ user.artist_name }}</span>
             </div>
+            {% endif %}
             <div class="header-right">
                 <ul class="nav">
                     <li class="nav-item">

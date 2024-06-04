@@ -19,6 +19,13 @@
     height: 70px;
 }
 
+.label-image {
+    max-height: 80px;
+    width: auto;
+    margin-top: 30px;
+    border: 2px solid red;
+}
+
 .artist-name {
     font-size: 2rem;
     color: #000; /* Ваш цвет текста */

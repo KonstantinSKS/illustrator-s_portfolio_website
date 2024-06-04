@@ -1,13 +1,23 @@
+import os
+
 from flask import request, url_for
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, BaseView, expose
+from flask_admin.form import ImageUploadField
 from markupsafe import Markup
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, NumberRange, Email
 from wtforms import MultipleFileField
 
+from . import app
 from .models import Project, ProjectImage, Blog, BlogImage
 from .utils import (ImageListField, save_images, delete_images_in_editing,
                     delete_images, order_images)
+
+AVAILABLE_USER_TYPES = [
+    (u'admin', u'admin'),
+    (u'author', u'author'),
+    (u'editor', u'editor')
+]
 
 
 class AllProjectsView(AdminIndexView):
@@ -25,6 +35,48 @@ class AllBlogsView(BaseView):
     def admin_blogs(self):
         blogs = Blog.query.all()
         return self.render('admin/blogs_preview.html', blogs=blogs)
+
+
+class UserAdminView(ModelView):
+    """A custom admin view for User model"""
+    # column_list = ['role', 'username', 'email', 'password', 'artist_name', 'image', 'label', 'description', 'instagram_link', 'behance_link']
+    column_labels = {
+        'image': 'Avatar',
+        'description': 'About me'
+    }
+    can_delete = False  # НАДО ЛИ ??
+    form_args = {
+        'role': dict(validators=[DataRequired()]),
+        'username': dict(validators=[DataRequired()]),
+        'email': dict(validators=[Email()]),
+        'password': dict(validators=[DataRequired()]),
+    }
+    form_choices = {
+        'role': AVAILABLE_USER_TYPES
+    }
+    form_extra_fields = {
+        'image': ImageUploadField(
+            'Image',
+            base_path=app.static_folder,
+            relative_path=app.config['USER_IMAGES']
+        ),
+        'label': ImageUploadField(
+            'Label',
+            base_path=app.static_folder,
+            relative_path=app.config['USER_IMAGES']
+        )
+    }
+    column_descriptions = {
+        'artist_name': ('Enter your first and last name '
+                        'to display them on the site.'),
+        'image': ('Upload your avatar '
+                  'to display it on the about + contact page.'),
+        'label': ('Upload an image if you want to display it '
+                  'instead of your name on the site.'),  # ВОзможно надо указать размеры изображения!!!
+        'description': 'Tell us about yourself here.'
+    }
+    column_exclude_list = ['password']
+    column_editable_list = ['role']  # надо ли ??
 
 
 class ProjectAdminView(ModelView):

@@ -135,3 +135,5 @@ dmypy.json
 # mediafiles
 media/
 .media/
+user_images/
+.user_images/
