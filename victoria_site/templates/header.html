@@ -1,9 +1,23 @@
-<header class="pt-3">
-  <div class="header">
-    <ul>
-        <a href="{{ url_for('index_view') }}">WORKS</a>
-        <a href="{{ url_for('about_view') }}">ABOUT + CONTACT</a>
-        <a href="{{ url_for('all_blogs_view') }}">BLOG</a>
-    </ul>
-</div>
-</header>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div class="header-left">
+                <span class="artist-name">{{ user.name }}</span>
+            </div>
+            <div class="header-right">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'index_view' %}active{% endif %}" href="{{ url_for('index_view') }}">WORKS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'about_view' %}active{% endif %}" href="{{ url_for('about_view') }}">ABOUT + CONTACT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'all_blogs_view' %}active{% endif %}" href="{{ url_for('all_blogs_view') }}">BLOG</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </header>
+  

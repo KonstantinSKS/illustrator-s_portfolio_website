@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Создать новый проект {% endblock %}
+{% block content %}
+<body>
+  <h1>Создать новый проект</h1>
+  <form action="{{ url_for('add_project') }}" method="post" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <p>
+          {{ form.title.label }}<br>
+          {{ form.title(size=32) }}
+      </p>
+      <p>
+          {{ form.image_path.label }}<br>
+          {{ form.image_path() }}
+      </p>
+      <p>
+          {{ form.text.label }}<br>
+          {{ form.text(cols=40, rows=5) }}
+      </p>
+      <p>
+          {{ form.tags_select.label }}<br>
+          {{ form.tags_select() }}
+      </p>
+      <p>{{ form.submit() }}</p>
+  </form>
+</body>
+{% endblock %}

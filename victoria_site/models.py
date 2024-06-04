@@ -81,5 +81,19 @@ class BlogImage(db.Model):
         return f'<Image {self.image_path}>'
 
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+    artist_name = db.Column(db.String(120), nullable=True)
+    image = db.Column(db.String(256), nullable=True, default='default.jpg')
+    label = db.Column(db.String(256), nullable=True)
+    description = db.Column(db.String(512), nullable=True)
+    instagram_link = db.Column(db.String(256), nullable=True)
+    behance_link = db.Column(db.String(256), nullable=True)
+
+
 with app.app_context():
     db.create_all()

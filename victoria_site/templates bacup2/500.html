@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}500. Хьюстон, у нас проблемы!{% endblock %}
+{% block content %}
+<main>
+  <section class="container my-5">
+    <div class="row">
+      <div class="col-12 col-lg-7 my-5">
+        <h1 class="mb-5">Хьюстон, у нас проблемы!</h1>
+        <p>
+          Возможно, на сервере произошёл сбой или проводятся кратковременные
+          технические работы. Попробуйте обновить страницу сейчас или через пару
+          минут.
+        </p>
+      </div>
+      <div class="col-12 col-lg-5">
+        <img class="img-fluid mx-auto d-block" src="{{ url_for('static', filename='img/500.png') }}" alt="" />
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

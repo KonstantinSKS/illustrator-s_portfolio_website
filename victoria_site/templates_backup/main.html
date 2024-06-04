@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}projects{% endblock %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .filter {
+            text-align: right;
+            padding: 20px;
+        }
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+        .project {
+            width: 40%;
+            margin: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
+        }
+        .project img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            transition: all 0.3s ease; /* Плавный переход для всех изменений */
+        }
+        .project .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.8); /* Темно-темно-серый цвет с прозрачностью */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease; /* Плавный переход для прозрачности */
+        }
+        .project:hover .overlay {
+            opacity: 1;
+        }
+        .project-title-overlay {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter">
+        <h3 class="filter-label">Фильтр по тэгам:</h3>
+        <form action="{{ url_for('index_view') }}" method="get">
+            <select name="tag" onchange="this.form.submit()">
+                <option value="all">Показать все</option>
+                {% for tag in tags %}
+                <option value="{{ tag.name }}" {% if tag.name == current_tag %}selected{% endif %}>{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+    <div class="projects">
+        {% for project in projects %}
+        <div class="project">
+            {% if project.images|length > 0 %}
+            <a href="{{ url_for('project_view', id=project.id) }}">
+                <img src="{{ url_for('static', filename=project.images[0].image_path) }}" alt="Project image">
+                <div class="overlay">
+                    {% if project.title %}
+                    <div class="project-title-overlay">{{ project.title }}</div>
+                    {% endif %}
+                </div>
+            </a>
+            {% endif %}
+            <p>{{ project.text }}</p>
+            <div> {% for tag in project.tags %}<span>#{{ tag.name }} </span>{% endfor %}</div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+{% endblock %}

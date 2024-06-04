@@ -46,54 +46,30 @@
             color: darkblue;
             text-decoration: none;
         }
-        .flash-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #f0ad4e;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-            display: none;
-        }
     </style>
     <script>
-        function copyEmail() {
-            const emailText = document.getElementById('email-text').innerText;
-            navigator.clipboard.writeText(emailText).then(function() {
-                showFlashMessage("The email address has been copied.");
+        function copyEmail(email) {
+            navigator.clipboard.writeText(email).then(function() {
+                alert("The email address has been copied.");
             }, function(err) {
                 console.error('Could not copy text: ', err);
             });
         }
-
-        function showFlashMessage(message) {
-            const flashMessage = document.createElement('div');
-            flashMessage.className = 'flash-message';
-            flashMessage.textContent = message;
-            document.body.appendChild(flashMessage);
-            flashMessage.style.display = 'block';
-            setTimeout(() => {
-                flashMessage.style.display = 'none';
-                document.body.removeChild(flashMessage);
-            }, 3000);
-        }
     </script>
 </head>
 <body>
+    <h1 class="about-header">{{ user.name }}</h1>
     <div class="about-container">
         <div class="about-description">
             <p>{{ user.description }}</p>
         </div>
         <div class="about-avatar">
-            <img src="{{ user.image }}" alt="Avatar">
+            <img src="{{ user.image_path }}" alt="Avatar">
             <div class="about-links">
-                <a href="javascript:void(0);" class="about-link" onclick="copyEmail()">Email</a>
+                <a href="javascript:void(0);" class="about-link" onclick="copyEmail('{{ user.email }}')">Email</a>
                 <a href="{{ user.instagram }}" class="about-link" target="_blank">Instagram</a>
                 <a href="{{ user.behance }}" class="about-link" target="_blank">Behance</a>
             </div>
-            <span id="email-text" style="display:none;">{{ user.email }}</span>
         </div>
     </div>
 </body>

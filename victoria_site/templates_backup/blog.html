@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% block title %}blog {{ blog.id }}{%endblock %} 
+{% block content %}
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title or "Блог" }}</title>
+    <style>
+        .blog-image img {
+            width: 100%; /* Подстраиваем изображение по ширине контейнера */
+            max-width: 400px; /* Максимальная ширина изображения */
+            height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
+        }
+    </style>
+</head>
+<body>
+    <div class="blog">
+        {% if blog.title %}
+          <h1>{{ blog.title }}</h1>
+        {% else %}
+          <p></p>
+        {% endif %}
+        {% if blog.images %}
+            <div class="blog-image">
+              {% for image in blog.images %}
+                <img src="{{ url_for('static', filename=image.image_path) }}" alt="Blog image">
+              {% endfor %}
+            </div>
+        {% else %}
+            <p></p>
+        {% endif %}
+        <div class="project-description">
+            <p>{{ blog.text }}</p>
+        </div>
+        <div>Дата публикации: {{ blog.pub_date }}</div>
+    </div>
+</body>
+{% endblock %}

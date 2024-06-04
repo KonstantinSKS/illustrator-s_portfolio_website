@@ -1,11 +1,11 @@
 from flask import request, url_for
 from flask_admin.contrib.sqla import ModelView
-from flask_admin import AdminIndexView, expose
+from flask_admin import AdminIndexView, BaseView, expose
 from markupsafe import Markup
 from wtforms.validators import DataRequired, NumberRange
 from wtforms import MultipleFileField
 
-from .models import Project, ProjectImage, BlogImage
+from .models import Project, ProjectImage, Blog, BlogImage
 from .utils import (ImageListField, save_images, delete_images_in_editing,
                     delete_images, order_images)
 
@@ -17,6 +17,14 @@ class AllProjectsView(AdminIndexView):
         projects = Project.query.order_by(Project.order).all()
         # projects = Project.query.all()
         return self.render('admin/index.html', projects=projects)
+
+
+class AllBlogsView(BaseView):
+    """A custom admin view for displaying all blogs"""
+    @expose('/')
+    def admin_blogs(self):
+        blogs = Blog.query.all()
+        return self.render('admin/blogs_preview.html', blogs=blogs)
 
 
 class ProjectAdminView(ModelView):
