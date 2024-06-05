@@ -1,4 +1,4 @@
-/* Стили для ссылок в header */
+/* Стили для header */
 .header {
     background-color: #fff;
     position: auto;
@@ -9,7 +9,7 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px; /* Уменьшаем отступы */
 }
 
 .header-content {
@@ -22,8 +22,8 @@
 .label-image {
     max-height: 80px;
     width: auto;
-    margin-top: 30px;
-    border: 2px solid red;
+    margin-top: 40px;
+    /*border: 2px solid red;*/ /*Рамка*/
 }
 
 .artist-name {
@@ -113,6 +113,9 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px; /* Уменьшаем отступы */
 }
 
 /* Стили для фильтра */
@@ -127,11 +130,11 @@ body {
     flex-wrap: wrap;
     justify-content: space-between; /* Изменили на space-between */
     width: 100%; /* Занимать всю ширину контейнера */
-    padding: 0 20px; /* Отступы слева и справа для выравнивания */
+    padding: 0 10px; /* Уменьшаем отступы */
 }
 
 .project {
-    width: calc(33.33% - 10px); /* Изменили ширину проекта */
+    width: calc(33.33% - 10px); /* Увеличиваем ширину проекта */
     margin: 5px;
     padding: 10px;
     box-sizing: border-box;
@@ -193,16 +196,18 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
 }
 
 .project-image {
     margin-bottom: 20px;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
 }
 
 .project-image img {
     max-width: 100%;
-    max-height: 100vh; /* Set max height to viewport height */
-    height: auto; /* Maintain aspect ratio */
+    width: 100%; /* Добавлено: изображение растягивается по ширине */
+    height: auto; /* Сохраняем пропорции изображения */
 }
 
 .tags {
@@ -210,17 +215,18 @@ body {
     margin-top: 20px;
 }
 
+
 /* Стили для страницы со всеми блогами */
 .blogs {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    padding: 20px;
+    padding: 10px; /* Уменьшаем отступы */
 }
 
 .blog {
-    width: 40%;
-    margin: 5px;
+    width: calc(50% - 20px); /* Увеличиваем ширину блога */
+    margin: 10px;
     padding: 10px;
     box-sizing: border-box;
     position: relative;
@@ -272,8 +278,141 @@ body {
 }
 
 /* Стили для страницы блога */
+.blog-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.blog-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.blog-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.blog-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
+}
+
+.blog-image {
+    margin-bottom: 20px;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
+}
+
 .blog-image img {
-    width: 100%; /* Подстраиваем изображение по ширине контейнера */
-    max-width: 400px; /* Максимальная ширина изображения */
-    height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
+    max-width: 100%;
+    width: 100%; /* Добавлено: изображение растягивается по ширине */
+    height: auto; /* Сохраняем пропорции изображения */
+}
+
+/* Стили для футера */
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+footer p {
+    color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный цвет */
+}
+
+/* Стили для страницы About */
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.about-header {
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px; /* Убрано: margin-top */
+}
+
+.about-description {
+    width: 45%;
+    text-align: left;
+    /* margin-top: 20px; Убрано: лишний отступ сверху */
+}
+
+.about-avatar {
+    width: 45%;
+    text-align: left;
+    padding-left: 20px;
+    /* margin-top: 20px; Убрано: лишний отступ сверху */
+}
+
+.about-avatar img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.about-links {
+    display: flex;
+    justify-content: flex-end; /* Выравнивание по правому краю */
+    flex-direction: column;
+    margin-top: 20px; /* Отступ сверху для ссылок */
+}
+
+.about-link {
+    color: rgb(255, 115, 0);
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.about-link:hover {
+    color: rgb(228, 74, 3);
+    text-decoration: none;
+}
+
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f0ad4e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: none;
+}
+
+/* Кнопка "Наверх" */
+.scroll-top-button {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный цвет */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Скрыта по умолчанию */
+    z-index: 1000;
+    transition: opacity 0.3s;
+}
+
+.scroll-top-button:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* Темнее при наведении */
 }

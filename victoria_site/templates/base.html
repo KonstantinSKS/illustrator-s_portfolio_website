@@ -10,15 +10,30 @@
 </head>
 <body>
     {% include "header.html" %}
-
     <main>
         <div class="container">
             {% block content %}{% endblock content %}
         </div>
     </main>
-
     {% include "footer.html" %}
-
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        // Показываем кнопку при прокрутке более чем на один экран по высоте
+        window.onscroll = function() {
+            const scrollTopButton = document.getElementById('scrollTopButton');
+            if (document.body.scrollTop > window.innerHeight || document.documentElement.scrollTop > window.innerHeight) {
+                scrollTopButton.style.display = 'flex';
+            } else {
+                scrollTopButton.style.display = 'none';
+            }
+        };
+        // Плавный скролл наверх
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>    
 </body>
 </html>

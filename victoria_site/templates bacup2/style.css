@@ -19,6 +19,13 @@
     height: 70px;
 }
 
+.label-image {
+    max-height: 80px;
+    width: auto;
+    margin-top: 40px;
+    /*border: 2px solid red;*/ /*Рамка*/
+}
+
 .artist-name {
     font-size: 2rem;
     color: #000; /* Ваш цвет текста */
@@ -44,6 +51,12 @@
 
 .nav-link:hover {
     color: #000; /* Ваш цвет текста */
+}
+
+/* Новый стиль для активной ссылки */
+.nav-link.active {
+    text-decoration: underline;
+    color: #000; /* Цвет текста активной ссылки, можно настроить */
 }
 
 /* Стили для надписи "Фильтр по тэгам:" */
@@ -126,7 +139,6 @@ body {
     overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
     text-align: center; /* Центровка текста внутри проекта */
 }
-
 
 .project img {
     max-width: 100%;
@@ -265,4 +277,68 @@ body {
     max-width: 400px; /* Максимальная ширина изображения */
     height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
 }
-  
+
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+footer p {
+    color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный цвет */
+}
+
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+.about-header {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: blue;
+    margin: 20px 0;
+}
+.about-description {
+    width: 45%;
+    text-align: left;
+}
+.about-avatar {
+    width: 45%;
+    text-align: left;
+    padding-left: 20px;
+}
+.about-avatar img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+.about-links {
+    margin-top: 10px;
+}
+.about-link {
+    color: rgb(255, 115, 0);
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+.about-link:hover {
+    color: rgb(228, 74, 3);
+    text-decoration: none;
+}
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f0ad4e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: none;
+}

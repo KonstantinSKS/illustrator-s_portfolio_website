@@ -89,7 +89,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
     artist_name = db.Column(db.String(120), nullable=True)
-    image = db.Column(db.String(256), nullable=True, default='default.jpg')
+    image = db.Column(db.String(256), nullable=True)
     label = db.Column(db.String(256), nullable=True)
     description = db.Column(db.Text(512), nullable=True)
     instagram_link = db.Column(db.String(256), nullable=True)

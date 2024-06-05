@@ -84,3 +84,11 @@ def order_images(model):
         order_value = request.form.get(f'order_{i}')
         if order_value is not None:
             image.order = int(order_value)
+
+
+def generate_image_name(obj, file_data):
+    """Generates a unique name for an uploaded image file."""
+    filename = secure_filename(file_data.filename)
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
+    unique_filename = f"{timestamp}_{filename}"
+    return unique_filename

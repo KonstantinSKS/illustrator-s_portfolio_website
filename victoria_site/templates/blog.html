@@ -1,20 +1,26 @@
 {% extends "base.html" %} 
 {% block title %}blog {{ blog.id }}{%endblock %} 
 {% block content %}
-<div class="blog">
+<div class="blog-container">
     {% if blog.title %}
-      <h1>{{ blog.title }}</h1>
+      <h1 class="blog-title">{{ blog.title }}</h1>
     {% endif %}
+    {% if blog.text %}
+      <p class="blog-text">{{ blog.text }}</p>
+    {% endif %}
+    <div class="blog-images">
     {% if blog.images %}
         <div class="blog-image">
           {% for image in blog.images %}
             <img src="{{ url_for('static', filename=image.image_path) }}" alt="Blog image">
           {% endfor %}
         </div>
-    {% endif %}
-    <div class="project-description">
-        <p>{{ blog.text }}</p>
     </div>
-    <div>Дата публикации: {{ blog.pub_date }}</div>
+    {% endif %}
+    <div>{{ blog.pub_date }}</div>
+</div>
+<!-- Кнопка "Наверх" -->
+<div id="scrollTopButton" class="scroll-top-button" onclick="scrollToTop()">
+  &#8679; <!-- стрелка вверх -->
 </div>
 {% endblock %}

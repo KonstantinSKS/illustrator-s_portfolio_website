@@ -9,9 +9,9 @@ from wtforms.validators import DataRequired, NumberRange, Email
 from wtforms import MultipleFileField
 
 from . import app
-from .models import Project, ProjectImage, Blog, BlogImage
+from .models import Project, ProjectImage, Blog, BlogImage, User
 from .utils import (ImageListField, save_images, delete_images_in_editing,
-                    delete_images, order_images)
+                    delete_images, order_images, generate_image_name)
 
 AVAILABLE_USER_TYPES = [
     (u'admin', u'admin'),
@@ -54,16 +54,39 @@ class UserAdminView(ModelView):
     form_choices = {
         'role': AVAILABLE_USER_TYPES
     }
+
+    def _image_thumbnail(view, context, model, name):
+        if not model.image:
+            return ''
+
+        return Markup(
+            f'<img src="{url_for("static", filename=model.image)}" width="100">'
+        )
+
+    def _label_thumbnail(view, context, model, name):
+        if not model.image:
+            return ''
+
+        return Markup(
+            f'<img src="{url_for("static", filename=model.label)}" width="100">'
+        )
+
+    column_formatters = {
+        'image': _image_thumbnail,
+        'label': _label_thumbnail
+    }
     form_extra_fields = {
         'image': ImageUploadField(
             'Image',
             base_path=app.static_folder,
-            relative_path=app.config['USER_IMAGES']
+            relative_path=app.config['USER_IMAGES'],
+            namegen=generate_image_name
         ),
         'label': ImageUploadField(
             'Label',
             base_path=app.static_folder,
-            relative_path=app.config['USER_IMAGES']
+            relative_path=app.config['USER_IMAGES'],
+            namegen=generate_image_name
         )
     }
     column_descriptions = {
@@ -76,7 +99,7 @@ class UserAdminView(ModelView):
         'description': 'Tell us about yourself here.'
     }
     column_exclude_list = ['password']
-    column_editable_list = ['role']  # надо ли ??
+    column_editable_list = ['role']
 
 
 class ProjectAdminView(ModelView):
