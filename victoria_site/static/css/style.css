@@ -27,9 +27,14 @@
 }
 
 .artist-name {
+    text-decoration: none;
     font-size: 2rem;
     color: #000; /* Ваш цвет текста */
     /* font-weight: bold; Ваше начертание текста */
+}
+
+.artist-name:hover {
+    color: black;
 }
 
 .nav {
@@ -274,7 +279,7 @@ body {
 
 .blog-title-link:hover {
     font-weight: bold;
-    color: black; /* цвет изменен на синий */
+    color: black; /* цвет изменен на черный */
 }
 
 /* Стили для страницы блога */
@@ -368,7 +373,7 @@ footer p {
 }
 
 .about-link {
-    color: rgb(255, 115, 0);
+    color: rgb(59, 59, 59);
     font-weight: bold;
     text-decoration: none;
     display: block;
@@ -377,7 +382,7 @@ footer p {
 }
 
 .about-link:hover {
-    color: rgb(228, 74, 3);
+    color: rgb(15, 15, 15);
     text-decoration: none;
 }
 

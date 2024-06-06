@@ -64,7 +64,7 @@ class UserAdminView(ModelView):
         )
 
     def _label_thumbnail(view, context, model, name):
-        if not model.image:
+        if not model.label:
             return ''
 
         return Markup(

@@ -6,7 +6,7 @@
     <link rel="icon" href="{{ url_for('static', filename='img/fav/favicon.ico') }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <title>{% block title %}Название вашего сайта{% endblock title %}</title>
+    <title>{% block title %}Your website name{% endblock title %}</title>
 </head>
 <body>
     {% include "header.html" %}
@@ -18,7 +18,6 @@
     {% include "footer.html" %}
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        // Показываем кнопку при прокрутке более чем на один экран по высоте
         window.onscroll = function() {
             const scrollTopButton = document.getElementById('scrollTopButton');
             if (document.body.scrollTop > window.innerHeight || document.documentElement.scrollTop > window.innerHeight) {
@@ -27,7 +26,6 @@
                 scrollTopButton.style.display = 'none';
             }
         };
-        // Плавный скролл наверх
         function scrollToTop() {
             window.scrollTo({
                 top: 0,

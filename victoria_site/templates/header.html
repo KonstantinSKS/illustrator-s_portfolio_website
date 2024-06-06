@@ -2,10 +2,10 @@
     <div class="container">
         <div class="header-content">
             {% if user.label %}
-                    <img src="{{ url_for('static', filename=user.label) }}" class="label-image">
+                <a href="{{ url_for('index_view') }}"><img src="{{ url_for('static', filename=user.label) }}" class="label-image"></a>
             {% else %}
             <div class="header-left">
-                <span class="artist-name">{{ user.artist_name }}</span>
+                <span><a href="{{ url_for('index_view') }}" span class="artist-name">{{ user.artist_name }}</a></span>
             </div>
             {% endif %}
             <div class="header-right">
@@ -23,5 +23,5 @@
             </div>
         </div>
     </div>
-  </header>
+</header>
   

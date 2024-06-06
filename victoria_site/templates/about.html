@@ -31,10 +31,11 @@
         <h2 class="about-header">About Me</h2>
         <p>{{ user.description }}</p>
         <div class="about-links">
-            <a href="mailto:{{ user.email }}" class="about-link">Email</a>
+            <a href="javascript:void(0);" class="about-link" onclick="copyEmail()">Email</a>
             <a href="{{ user.instagram_link }}" class="about-link" target="_blank">Instagram</a>
             <a href="{{ user.behance_link }}" class="about-link" target="_blank">Behance</a>
         </div>
+        <span id="email-text" style="display:none;">{{ user.email }}</span>
     </div>
     <div class="about-avatar">
         <img src="{{ url_for('static', filename=user.image) }}" alt="{{ user.artist_name }}">
