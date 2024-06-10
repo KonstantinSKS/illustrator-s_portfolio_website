@@ -37,8 +37,10 @@
         </div>
         <span id="email-text" style="display:none;">{{ user.email }}</span>
     </div>
+    {% if user.image %}
     <div class="about-avatar">
         <img src="{{ url_for('static', filename=user.image) }}" alt="{{ user.artist_name }}">
     </div>
+    {% endif %}
 </div>    
 {% endblock %}

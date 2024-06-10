@@ -1,6 +1,7 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
+{% if current_user.is_authenticated %}
 <head>
   <meta charset="UTF-8">
   <style>
@@ -47,4 +48,5 @@
     {% endfor %}
   </div>
 </body>
+{% endif %}
 {% endblock %}

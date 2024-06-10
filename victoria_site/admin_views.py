@@ -1,15 +1,16 @@
-import os
 
-from flask import request, url_for
+from flask import request, url_for, redirect, render_template
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, BaseView, expose
 from flask_admin.form import ImageUploadField
+from flask_login import login_user, login_required, logout_user
+# from flask_security import login_required
 from markupsafe import Markup
 from wtforms.validators import DataRequired, NumberRange, Email
 from wtforms import MultipleFileField
 
 from . import app
-from .models import Project, ProjectImage, Blog, BlogImage, User
+from .models import Project, ProjectImage, Blog, BlogImage
 from .utils import (ImageListField, save_images, delete_images_in_editing,
                     delete_images, order_images, generate_image_name)
 
@@ -20,9 +21,29 @@ AVAILABLE_USER_TYPES = [
 ]
 
 
+class AuthModelView(ModelView):  # НЕ РАБОТАЕТ ПОЧЕМУ?!
+    def is_accessible(self):
+        return login_required(super().is_accessible)
+
+
+class LogoutView(BaseView):
+    @expose('/')
+    @login_required
+    def logout(self):
+        logout_user()
+        return redirect(url_for('admin.index'))
+
+
+# class LoginView(BaseView):
+#     @expose('/')
+#     def login(self):
+#         return self.render('admin/login.html', legend='Login')
+
+
 class AllProjectsView(AdminIndexView):
     """A custom admin view for displaying all projects"""
     @expose('/')
+    @login_required
     def admin_projects(self):
         projects = Project.query.order_by(Project.order).all()
         # projects = Project.query.all()
@@ -32,77 +53,78 @@ class AllProjectsView(AdminIndexView):
 class AllBlogsView(BaseView):
     """A custom admin view for displaying all blogs"""
     @expose('/')
+    @login_required
     def admin_blogs(self):
         blogs = Blog.query.all()
         return self.render('admin/blogs_preview.html', blogs=blogs)
 
 
-class UserAdminView(ModelView):
-    """A custom admin view for User model"""
-    # column_list = ['role', 'username', 'email', 'password', 'artist_name', 'image', 'label', 'description', 'instagram_link', 'behance_link']
-    column_labels = {
-        'image': 'Avatar',
-        'description': 'About me'
-    }
-    can_delete = False  # НАДО ЛИ ??
-    form_args = {
-        'role': dict(validators=[DataRequired()]),
-        'username': dict(validators=[DataRequired()]),
-        'email': dict(validators=[Email()]),
-        'password': dict(validators=[DataRequired()]),
-    }
-    form_choices = {
-        'role': AVAILABLE_USER_TYPES
-    }
+# class UserAdminView(ModelView):
+#     """A custom admin view for User model"""
+#     # column_list = ['role', 'username', 'email', 'password', 'artist_name', 'image', 'label', 'description', 'instagram_link', 'behance_link']
+#     column_labels = {
+#         'image': 'Avatar',
+#         'description': 'About me'
+#     }
+#     can_delete = True  # НАДО ЛИ ??
+#     form_args = {
+#         'role': dict(validators=[DataRequired()]),
+#         'username': dict(validators=[DataRequired()]),
+#         'email': dict(validators=[Email()]),
+#         'password': dict(validators=[DataRequired()]),
+#     }
+#     form_choices = {
+#         'role': AVAILABLE_USER_TYPES
+#     }
 
-    def _image_thumbnail(view, context, model, name):
-        if not model.image:
-            return ''
+#     def _image_thumbnail(view, context, model, name):
+#         if not model.image:
+#             return ''
 
-        return Markup(
-            f'<img src="{url_for("static", filename=model.image)}" width="100">'
-        )
+#         return Markup(
+#             f'<img src="{url_for("static", filename=model.image)}" width="100">'
+#         )
 
-    def _label_thumbnail(view, context, model, name):
-        if not model.label:
-            return ''
+#     def _label_thumbnail(view, context, model, name):
+#         if not model.label:
+#             return ''
 
-        return Markup(
-            f'<img src="{url_for("static", filename=model.label)}" width="100">'
-        )
+#         return Markup(
+#             f'<img src="{url_for("static", filename=model.label)}" width="100">'
+#         )
 
-    column_formatters = {
-        'image': _image_thumbnail,
-        'label': _label_thumbnail
-    }
-    form_extra_fields = {
-        'image': ImageUploadField(
-            'Image',
-            base_path=app.static_folder,
-            relative_path=app.config['USER_IMAGES'],
-            namegen=generate_image_name
-        ),
-        'label': ImageUploadField(
-            'Label',
-            base_path=app.static_folder,
-            relative_path=app.config['USER_IMAGES'],
-            namegen=generate_image_name
-        )
-    }
-    column_descriptions = {
-        'artist_name': ('Enter your first and last name '
-                        'to display them on the site.'),
-        'image': ('Upload your avatar '
-                  'to display it on the about + contact page.'),
-        'label': ('Upload an image if you want to display it '
-                  'instead of your name on the site.'),  # ВОзможно надо указать размеры изображения!!!
-        'description': 'Tell us about yourself here.'
-    }
-    column_exclude_list = ['password']
-    column_editable_list = ['role']
+#     column_formatters = {
+#         'image': _image_thumbnail,
+#         'label': _label_thumbnail
+#     }
+#     form_extra_fields = {
+#         'image': ImageUploadField(
+#             'Image',
+#             base_path=app.static_folder,
+#             relative_path=app.config['USER_IMAGES'],
+#             namegen=generate_image_name
+#         ),
+#         'label': ImageUploadField(
+#             'Label',
+#             base_path=app.static_folder,
+#             relative_path=app.config['USER_IMAGES'],
+#             namegen=generate_image_name
+#         )
+#     }
+#     column_descriptions = {
+#         'artist_name': ('Enter your first and last name '
+#                         'to display them on the site.'),
+#         'image': ('Upload your avatar '
+#                   'to display it on the about + contact page.'),
+#         'label': ('Upload an image if you want to display it '
+#                   'instead of your name on the site.'),  # ВОзможно надо указать размеры изображения!!!
+#         'description': 'Tell us about yourself here.'
+#     }
+#     column_exclude_list = ['password']
+#     column_editable_list = ['role']
 
 
-class ProjectAdminView(ModelView):
+class ProjectAdminView(AuthModelView):
     """A custom admin view for creating and editing all projects"""
     column_list = ['id', 'order', 'title', 'text', 'images', 'tags']
     column_sortable_list = ['id', 'order', 'title']
