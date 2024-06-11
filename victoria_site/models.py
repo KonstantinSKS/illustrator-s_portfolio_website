@@ -180,7 +180,7 @@ with app.app_context():
 
     if not existing_user:
         new_user = User(
-            role='admin',
+            role=os.getenv('ROLE'),
             username=os.getenv('USERNAME'),
             email=os.getenv('EMAIL'),
             password=os.getenv('PASSWORD')

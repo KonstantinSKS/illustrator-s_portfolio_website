@@ -1,9 +1,9 @@
 # from datetime import datetime
 # import os
 
-from flask import render_template, request, redirect, flash, url_for
-from flask_login import login_user, logout_user, login_required
-from werkzeug.security import check_password_hash
+from flask import render_template, request  # , redirect, flash, url_for
+# from flask_login import login_user, logout_user, login_required
+# from werkzeug.security import check_password_hash
 # from werkzeug.utils import secure_filename
 
 from . import app  # , db
@@ -40,22 +40,22 @@ DESCRIPTION = """
 """
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    login = request.form.get('login')
-    password = request.form.get('password')
-    if login and password:
-        user = User.query.filter_by(username=login).first()
-        if user and user.password == password:
-            login_user(user)
-            next_page = request.args.get('next')
-            # return redirect(next_page)
-            return redirect(next_page or url_for('admin.index'))
-        else:
-            flash('Login or password is not correct.')
-    else:
-        flash('Please fill login and password fields.')
-    return render_template('admin/login.html')
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     login = request.form.get('login')
+#     password = request.form.get('password')
+#     if login and password:
+#         user = User.query.filter_by(username=login).first()
+#         if user and user.password == password:
+#             login_user(user)
+#             next_page = request.args.get('next')
+#             # return redirect(next_page)
+#             return redirect(next_page or url_for('admin.index'))
+#         else:
+#             flash('Login or password is not correct.')
+#     else:
+#         flash('Please fill login and password fields.')
+#     return render_template('admin/login.html')
 
 
 # @app.route('/register', methods=['GET', 'POST'])
@@ -70,11 +70,11 @@ def login():
 #     return redirect(url_for('admin.index'))
 
 
-@app.after_request
-def redirect_to_signin(response):
-    if response.status_code == 401:
-        return redirect(url_for('login') + '?next=' + request.url)
-    return response
+# @app.after_request
+# def redirect_to_signin(response):
+#     if response.status_code == 401:
+#         return redirect(url_for('login') + '?next=' + request.url)
+#     return response
 
 
 @app.route('/')
