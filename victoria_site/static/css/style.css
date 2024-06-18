@@ -190,11 +190,16 @@ body {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
+    margin-top: 40px; /* Увеличенный отступ сверху */
 }
 
 .project-text {
     margin-bottom: 20px;
     font-size: 18px;
+    max-width: 800px; /* Установите максимальную ширину для удобочитаемости */
+    margin: 0 auto; /* Центровка текста */
+    margin-bottom: 30px;
+    /*text-align: justify; /* Выравнивание текста по ширине для лучшей читаемости */
 }
 
 .project-images {
@@ -205,7 +210,8 @@ body {
 }
 
 .project-image {
-    margin-bottom: 20px;
+    /*margin-top: 30px; /* Отступ сверху*/
+    /*margin-bottom: 20px; /* Отступ снизу*/
     width: 100%; /* Добавлено: изображение занимает всю ширину */
 }
 
@@ -288,15 +294,31 @@ body {
     padding: 20px;
 }
 
+/* Стили для блога */
 .blog-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+    margin-top: 40px; /* Увеличенный отступ сверху для заголовка блога */
+}
+
+.blog-image {
+    margin-top: 40px; /* Увеличенный отступ сверху для изображения блога */
+    width: 100%;
+    height: auto;
+}
+
+
+.blog-image img {
+    max-width: 100%;
+    width: 100%; /* Добавлено: изображение растягивается по ширине */
+    height: auto; /* Сохраняем пропорции изображения */
 }
 
 .blog-text {
     margin-bottom: 20px;
     font-size: 18px;
+    max-width: 800px; /* Установите максимальную ширину для удобочитаемости */
+    margin: 0 auto; /* Центровка текста */
+    margin-bottom: 30px;
+    /*text-align: justify; /* Выравнивание текста по ширине для лучшей читаемости */
 }
 
 .blog-images {
@@ -304,17 +326,6 @@ body {
     flex-direction: column;
     align-items: center;
     width: 100%; /* Добавлено: изображение занимает всю ширину */
-}
-
-.blog-image {
-    margin-bottom: 20px;
-    width: 100%; /* Добавлено: изображение занимает всю ширину */
-}
-
-.blog-image img {
-    max-width: 100%;
-    width: 100%; /* Добавлено: изображение растягивается по ширине */
-    height: auto; /* Сохраняем пропорции изображения */
 }
 
 /* Стили для футера */
@@ -349,6 +360,8 @@ footer p {
 .about-description {
     width: 45%;
     text-align: left;
+    margin-bottom: 20px;
+    margin-top: 40px;
     /* margin-top: 20px; Убрано: лишний отступ сверху */
 }
 
@@ -356,6 +369,7 @@ footer p {
     width: 45%;
     text-align: left;
     padding-left: 20px;
+    margin-top: 40px;
     /* margin-top: 20px; Убрано: лишний отступ сверху */
 }
 
@@ -405,7 +419,7 @@ footer p {
     right: 40px;
     width: 50px;
     height: 50px;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный цвет */
+    background-color: rgba(0, 0, 0, 0.25); /* Бледнее в два раза */
     color: white;
     border-radius: 50%;
     display: flex;
@@ -419,5 +433,5 @@ footer p {
 }
 
 .scroll-top-button:hover {
-    background-color: rgba(0, 0, 0, 0.7); /* Темнее при наведении */
+    background-color: rgba(0, 0, 0, 0.35); /* Темнее при наведении */
 }

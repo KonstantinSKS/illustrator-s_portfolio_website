@@ -20,6 +20,8 @@ AVAILABLE_USER_TYPES = [
     (u'editor', u'editor')
 ]
 
+# ИМПОРТИРОВАТЬ ТОЛЬКО FLASK LOGIN, FLASK SEQURITY УБРАТЬ!!!
+
 
 class AuthModelView(ModelView):
     def is_accessible(self):

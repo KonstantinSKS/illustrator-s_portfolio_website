@@ -88,14 +88,14 @@ class BlogImage(db.Model):
 
 @manager.user_loader
 def load_user(user_id):
+    """This callback is used to reload the user object
+    from the user ID stored in the session"""
     # return db.session.query(User).get(user_id)
-    # return User.query(user_id)
     return User.query.get(user_id)
-    # return User.query.first()
 
 
 class User(db.Model, UserMixin):
-    """Admin model"""
+    """User model for administration"""
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(80), nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -172,12 +172,11 @@ class User(db.Model, UserMixin):
 #         )
 #     db.session.commit()
 
-
+"""Creates all db tables and User instance if not exists"""
 with app.app_context():
     db.create_all()
-    # create_default_user()
-    existing_user = User.query.filter_by(email=os.getenv('EMAIL')).first()
 
+    existing_user = User.query.filter_by(email=os.getenv('EMAIL')).first()
     if not existing_user:
         new_user = User(
             role=os.getenv('ROLE'),

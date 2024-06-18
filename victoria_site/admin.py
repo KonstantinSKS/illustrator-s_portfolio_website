@@ -6,7 +6,7 @@ from .models import Project, Tag, Blog, ProjectImage, BlogImage, User
 from .admin_views import (ProjectAdminView, AllProjectsView, TagsAdminView,
                           BlogAdminView, ProjectImagesAdminView,
                           BlogImagesAdminView, AllBlogsView, LoginView,
-                          LogoutView, UserAdminView)  # ExitView
+                          LogoutView, UserAdminView)
 
 
 admin = Admin(app, 'Go to MyArt', index_view=AllProjectsView(),
@@ -22,4 +22,3 @@ admin.add_view(AllBlogsView(name='Blogs_preview', endpoint='blogs_preview'))
 admin.add_view(BlogAdminView(Blog, db.session, name='Blogs'))
 admin.add_view(BlogImagesAdminView(BlogImage, db.session, name='Blog_images'))
 admin.add_view(LogoutView(name='Logout', endpoint='index'))
-# admin.add_view(ExitView(name='Выход', url='exit'))

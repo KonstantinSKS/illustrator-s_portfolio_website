@@ -10,24 +10,6 @@ from . import app  # , db
 from .models import Project, Tag, Blog, User
 # from .forms import BLogForm
 
-DESCRIPTION = (
-    'My name is Victoria Stebleva,\n'
-    'I am an international published illustrator and author-illustrator currently living in Serbia.\n'
-    'My portfolio includes non-fiction, middle-grade, activity books, graphic novel, wimmelbuch,\n'
-    'editorial illustrations and even more.\n'
-    'I am fond of motorbike traveling, nonfiction literature, rock music, and pets.\n'
-    'Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,\n'
-    'Yoyo Books, Wonderbly.'
-)
-
-USER_INFO = {
-        "name": "VICTORIA STEBLEVA",
-        "description": DESCRIPTION,  # Вынести в админку
-        "image": "/static/img/avatar885138196.jpg",
-        "email": "vikastebleva@gmail.com",
-        "instagram": "https://www.instagram.com/vika_stebleva/",
-        "behance": "https://www.behance.net/vika_stebleva"
-    }
 
 DESCRIPTION = """
     My name is Victoria Stebleva,
@@ -38,6 +20,16 @@ DESCRIPTION = """
     Select clients include: Scholastic, Penguin Random House, Magic Cat, Usborne, Highlights,
     Yoyo Books, Wonderbly.
 """
+
+
+USER_INFO = {
+        "name": "VICTORIA STEBLEVA",
+        "description": DESCRIPTION,  # Вынести в админку
+        "image": "/static/img/avatar885138196.jpg",
+        "email": "vikastebleva@gmail.com",
+        "instagram": "https://www.instagram.com/vika_stebleva/",
+        "behance": "https://www.behance.net/vika_stebleva"
+    }
 
 
 # @app.route('/login', methods=['GET', 'POST'])
@@ -86,7 +78,6 @@ def index_view():
             Tag.name == tag_filter).all()
     else:
         projects = Project.query.order_by(Project.order).all()
-        # projects = Project.query.all()
     tags = Tag.query.all()
     return render_template('main.html',
                            projects=projects,
@@ -106,14 +97,6 @@ def project_view(id):
 @app.route('/about')
 def about_view():
     """Renders information about an artist"""
-    # user_info = {
-    #     "name": "Victoria Stebleva",
-    #     "description": DESCRIPTION,  # Вынести в админку
-    #     "image_path": "/static/img/avatar885138196.jpg",
-    #     "email": "vikastebleva@gmail.com",
-    #     "instagram": "https://www.instagram.com/vika_stebleva/",
-    #     "behance": "https://www.behance.net/vika_stebleva"
-    # }
     return render_template('about.html', user=User.query.first())
 
 
