@@ -10,7 +10,7 @@ from . import app, db
 
 
 class ImageListWidget:
-    """ Creates HTML markup for displaying form fields with thumbnails. """
+    """ Creates HTML markup for displaying form fields with thumbnails."""
     def __call__(self, field, **kwargs):
         thumbnails = ''
         for i, image_path in enumerate(field.data):
@@ -54,7 +54,7 @@ def save_images(files, model, obj, obj_attr='project'):
 
 
 def delete_images_in_editing(delete_image_paths, model):
-    """Allows you to delete images in edit mode"""
+    """Allows you to delete images in edit mode."""
     for image_path in delete_image_paths:
         image = model.query.filter_by(
             image_path=image_path).first()
@@ -79,7 +79,7 @@ def delete_images(model):
 
 
 def order_images(model):
-    """Sets the order of the images"""
+    """Sets the order of the images."""
     for i, image in enumerate(model.images):
         order_value = request.form.get(f'order_{i}')
         if order_value is not None:

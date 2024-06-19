@@ -1,3 +1,5 @@
+
+
 /* Стили для header */
 .header {
     background-color: #fff;
@@ -23,6 +25,7 @@
     max-height: 80px;
     width: auto;
     margin-top: 40px;
+    padding: 0 10px;
     /*border: 2px solid red;*/ /*Рамка*/
 }
 
@@ -49,7 +52,7 @@
 
 .nav-link {
     text-decoration: none;
-    color: #000; /* Ваш цвет текста */
+    color: rgb(75, 75, 75); /* Ваш цвет текста */
     font-size: 1rem;
     font-weight: bold; /* Ваше начертание текста */
 }
@@ -60,7 +63,7 @@
 
 /* Новый стиль для активной ссылки */
 .nav-link.active {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
     color: #000; /* Цвет текста активной ссылки, можно настроить */
 }
 
@@ -120,37 +123,34 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 10px; /* Уменьшаем отступы */
+    /*padding: 0 10px; /* Уменьшаем отступы */
 }
 
 /* Стили для фильтра */
 .filter {
     align-self: flex-end; /* Выравниваем фильтр по правому краю */
     margin-bottom: 20px; /* Расстояние между фильтром и проектами */
+    padding: 0 10px;
 }
 
 /* Стили для проекта на главной странице */
 .projects {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; /* Изменили на space-between */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три колонки */
+    gap: 10px; /* Отступы между проектами */
     width: 100%; /* Занимать всю ширину контейнера */
     padding: 0 10px; /* Уменьшаем отступы */
 }
 
 .project {
-    width: calc(33.33% - 10px); /* Увеличиваем ширину проекта */
-    margin: 5px;
-    padding: 10px;
-    box-sizing: border-box;
     position: relative; /* Для позиционирования overlay */
     overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
     text-align: center; /* Центровка текста внутри проекта */
 }
 
 .project img {
-    max-width: 100%;
-    height: auto;
+    width: 100%; /* Ширина изображения занимает всю ширину контейнера */
+    height: auto; /* Высота изображения подстраивается по ширине, сохраняя пропорции */
     display: block;
     transition: all 0.3s ease; /* Плавный переход для всех изменений */
 }
@@ -389,7 +389,7 @@ footer p {
 }
 
 .about-link {
-    color: rgb(59, 59, 59);
+    color: rgb(75, 75, 75);
     font-weight: bold;
     text-decoration: none;
     display: block;
@@ -398,7 +398,7 @@ footer p {
 }
 
 .about-link:hover {
-    color: rgb(15, 15, 15);
+    color: black;
     text-decoration: none;
 }
 

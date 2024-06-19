@@ -7,7 +7,7 @@ from flask_login import UserMixin
 
 from . import db, app, manager
 
-"""Table for project tags"""
+"""Table for project tags."""
 project_tags = db.Table(
     'project_tags',
     db.Column('tag_id',
@@ -20,7 +20,7 @@ project_tags = db.Table(
 
 
 class Tag(db.Model):
-    """Tags model"""
+    """Tags model."""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), unique=True, nullable=False)
 
@@ -29,7 +29,7 @@ class Tag(db.Model):
 
 
 class Project(db.Model):
-    """Project model"""
+    """Project model."""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
     images = db.relationship('ProjectImage', back_populates='project',
@@ -46,7 +46,7 @@ class Project(db.Model):
 
 
 class Blog(db.Model):
-    """Blog model"""
+    """Blog model."""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
     images = db.relationship('BlogImage', backref='blog', lazy=True,
@@ -60,7 +60,7 @@ class Blog(db.Model):
 
 
 class ProjectImage(db.Model):
-    """Image model for projects"""
+    """Image model for projects."""
     id = db.Column(db.Integer, primary_key=True)
     image_path = db.Column(db.String(256), nullable=False)
     project_id = db.Column(db.Integer,
@@ -74,7 +74,7 @@ class ProjectImage(db.Model):
 
 
 class BlogImage(db.Model):
-    """Image model for blogs"""
+    """Image model for blogs."""
     id = db.Column(db.Integer, primary_key=True)
     image_path = db.Column(db.String(256), nullable=False)
     blog_id = db.Column(db.Integer,
@@ -89,13 +89,13 @@ class BlogImage(db.Model):
 @manager.user_loader
 def load_user(user_id):
     """This callback is used to reload the user object
-    from the user ID stored in the session"""
+    from the user ID stored in the session."""
     # return db.session.query(User).get(user_id)
     return User.query.get(user_id)
 
 
 class User(db.Model, UserMixin):
-    """User model for administration"""
+    """User model for administration."""
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(80), nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -172,7 +172,7 @@ class User(db.Model, UserMixin):
 #         )
 #     db.session.commit()
 
-"""Creates all db tables and User instance if not exists"""
+"""Creates all db tables and User instance if not exists."""
 with app.app_context():
     db.create_all()
 

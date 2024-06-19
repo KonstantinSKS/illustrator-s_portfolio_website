@@ -7,7 +7,7 @@ from flask import render_template, request  # , redirect, flash, url_for
 # from werkzeug.utils import secure_filename
 
 from . import app  # , db
-from .models import Project, Tag, Blog, User, load_user
+from .models import Project, Tag, Blog, User
 # from .forms import BLogForm
 
 
@@ -71,7 +71,7 @@ USER_INFO = {
 
 @app.route('/')
 def index_view():
-    """Renders main page with projects"""
+    """Renders main page with projects."""
     tag_filter = request.args.get('tag')
     if tag_filter and tag_filter != 'all':
         projects = Project.query.join(Project.tags).filter(
@@ -88,7 +88,7 @@ def index_view():
 
 @app.route('/projects/<int:id>')
 def project_view(id):
-    """Renders project page"""
+    """Renders project page."""
     project = Project.query.get_or_404(id)
     return render_template('project.html', project=project,
                            user=User.query.first())
@@ -96,7 +96,7 @@ def project_view(id):
 
 @app.route('/about')
 def about_view():
-    """Renders information about an artist"""
+    """Renders information about an artist."""
     return render_template('about.html', user=User.query.first())
 
 
@@ -105,7 +105,7 @@ def about_view():
 
 @app.route('/blogs')
 def all_blogs_view():
-    """Renders main page with blogs"""
+    """Renders main page with blogs."""
     blogs = Blog.query.all()
     return render_template('all_blogs.html', blogs=blogs,
                            user=User.query.first())
@@ -113,7 +113,7 @@ def all_blogs_view():
 
 @app.route('/blogs/<int:id>')
 def blog_view(id):
-    """Renders blog page"""
+    """Renders blog page."""
     blog = Blog.query.get_or_404(id)
     return render_template('blog.html', blog=blog,
                            user=User.query.first())

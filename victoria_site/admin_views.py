@@ -82,7 +82,7 @@ def redirect_to_signin(response):
 
 
 class AllProjectsView(AdminIndexView):
-    """A custom admin view for displaying all projects"""
+    """A custom admin view for displaying all projects."""
     @expose('/')
     # @login_required
     def admin_projects(self):
@@ -92,7 +92,7 @@ class AllProjectsView(AdminIndexView):
 
 
 class AllBlogsView(AuthBaseView):
-    """A custom admin view for displaying all blogs"""
+    """A custom admin view for displaying all blogs."""
     @expose('/')
     def admin_blogs(self):
         blogs = Blog.query.all()
@@ -100,7 +100,7 @@ class AllBlogsView(AuthBaseView):
 
 
 class UserAdminView(AuthModelView):
-    """A custom admin view for User model"""
+    """A custom admin view for User model."""
     # column_list = ['role', 'username', 'email', 'password', 'artist_name', 'image', 'label', 'description', 'instagram_link', 'behance_link']
     column_labels = {
         'image': 'Avatar',
@@ -165,7 +165,7 @@ class UserAdminView(AuthModelView):
 
 
 class ProjectAdminView(AuthModelView):
-    """A custom admin view for creating and editing all projects"""
+    """A custom admin view for creating and editing all projects."""
     column_list = ['id', 'order', 'title', 'text', 'images', 'tags']
     column_sortable_list = ['id', 'order', 'title']
     column_searchable_list = ['title', 'text']
@@ -229,7 +229,7 @@ class ProjectAdminView(AuthModelView):
 
 
 class TagsAdminView(AuthModelView):
-    """A custom admin view for creating and editing all tags"""
+    """A custom admin view for creating and editing all tags."""
     column_list = ['id', 'name']
     column_sortable_list = ('id', 'name')
     form_args = {
@@ -240,7 +240,7 @@ class TagsAdminView(AuthModelView):
 
 
 class ProjectImagesAdminView(AuthModelView):
-    """A custom admin view for displaying images of all projects"""
+    """A custom admin view for displaying images of all projects."""
     column_list = ['id', 'project.title', 'project_id', 'images']
     column_sortable_list = ['id', 'project.title', 'project_id']
     column_searchable_list = ['project.title']
@@ -262,7 +262,7 @@ class ProjectImagesAdminView(AuthModelView):
 
 
 class BlogAdminView(AuthModelView):
-    """A custom admin view for creating and editing all blogs"""
+    """A custom admin view for creating and editing all blogs."""
     column_list = ['id', 'title', 'text', 'images', 'pub_date']
     column_sortable_list = ('id', 'title', 'pub_date')
     column_searchable_list = ['title', 'text']
@@ -325,7 +325,7 @@ class BlogAdminView(AuthModelView):
 
 
 class BlogImagesAdminView(AuthModelView):
-    """A custom admin view for displaying images of all blogs"""
+    """A custom admin view for displaying images of all blogs."""
     column_list = ['id', 'blog.title', 'blog_id', 'images']
     column_sortable_list = ['id', 'blog.title', 'blog_id']
     column_searchable_list = ['blog.title']
