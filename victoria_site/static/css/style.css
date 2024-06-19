@@ -1,4 +1,22 @@
+@font-face {
+    font-family: 'Circe';
+    src: local('Circe'),
+        url(/static/fonts/Circe/circe-bold.ttf),
+        url(/static/fonts/Circe/circe-extrabold.ttf),
+        url(/static/fonts/Circe/circe-extralight.ttf),
+        url(/static/fonts/Circe/circe-light.ttf),
+        url(/static/fonts/Circe/circe-thin.ttf),
+        url(/static/fonts/Circe/circe.ttf);
+}
 
+/* Общие стили для всех страниц */
+body {
+    font-family: 'Circe', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 /* Стили для header */
 .header {
@@ -33,6 +51,7 @@
     text-decoration: none;
     font-size: 2rem;
     color: #000; /* Ваш цвет текста */
+    padding: 0 10px;
     /* font-weight: bold; Ваше начертание текста */
 }
 
@@ -65,6 +84,13 @@
 .nav-link.active {
     /*text-decoration: underline;*/
     color: #000; /* Цвет текста активной ссылки, можно настроить */
+}
+
+/* Стили для фильтра */
+.filter {
+    align-self: flex-end; /* Выравниваем фильтр по правому краю */
+    margin-bottom: 20px; /* Расстояние между фильтром и проектами */
+    padding: 0 10px;
 }
 
 /* Стили для надписи "Фильтр по тэгам:" */
@@ -107,14 +133,6 @@
     color: white; /* Белый текст при выделении */
 }
 
-/* Общие стили для всех страниц */
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 /* Стили для контейнера фильтра и проектов */
 .filter-projects-container {
     display: flex;
@@ -126,18 +144,11 @@ body {
     /*padding: 0 10px; /* Уменьшаем отступы */
 }
 
-/* Стили для фильтра */
-.filter {
-    align-self: flex-end; /* Выравниваем фильтр по правому краю */
-    margin-bottom: 20px; /* Расстояние между фильтром и проектами */
-    padding: 0 10px;
-}
-
 /* Стили для проекта на главной странице */
 .projects {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Три колонки */
-    gap: 10px; /* Отступы между проектами */
+    gap: 20px; /* Отступы между проектами */
     width: 100%; /* Занимать всю ширину контейнера */
     padding: 0 10px; /* Уменьшаем отступы */
 }
@@ -146,6 +157,7 @@ body {
     position: relative; /* Для позиционирования overlay */
     overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
     text-align: center; /* Центровка текста внутри проекта */
+    margin-bottom: 30px;
 }
 
 .project img {
@@ -227,17 +239,19 @@ body {
 }
 
 
-/* Стили для страницы со всеми блогами */
+/* Стили для контейнера блогов */
 .blogs {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
     padding: 10px; /* Уменьшаем отступы */
 }
 
+/* Стили для блога */
 .blog {
-    width: calc(50% - 20px); /* Увеличиваем ширину блога */
-    margin: 10px;
+    width: 90%; /* Ширина блога 80% от контейнера */
+    max-width: 800px; /* Максимальная ширина блога */
+    margin: 10px auto; /* Центрирование блога с отступами сверху и снизу */
     padding: 10px;
     box-sizing: border-box;
     position: relative;
@@ -280,12 +294,12 @@ body {
 .blog-title-link {
     text-decoration: none;
     color: black;
-    transition: font-weight 0.3s ease, color 0.3s ease; /* добавлен переход для изменения цвета */
+    transition: font-weight 0.3s ease, color 0.3s ease;
 }
 
 .blog-title-link:hover {
     font-weight: bold;
-    color: black; /* цвет изменен на черный */
+    color: black;
 }
 
 /* Стили для страницы блога */
