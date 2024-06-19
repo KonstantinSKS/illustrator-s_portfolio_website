@@ -7,7 +7,7 @@ from flask import render_template, request  # , redirect, flash, url_for
 # from werkzeug.utils import secure_filename
 
 from . import app  # , db
-from .models import Project, Tag, Blog, User
+from .models import Project, Tag, Blog, User, load_user
 # from .forms import BLogForm
 
 

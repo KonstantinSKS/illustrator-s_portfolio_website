@@ -296,11 +296,13 @@ body {
 
 /* Стили для блога */
 .blog-title {
+    font-size: 24px;
+    font-weight: bold;
     margin-top: 40px; /* Увеличенный отступ сверху для заголовка блога */
 }
 
 .blog-image {
-    margin-top: 40px; /* Увеличенный отступ сверху для изображения блога */
+    /*margin-top: 40px; /* Увеличенный отступ сверху для изображения блога */
     width: 100%;
     height: auto;
 }
