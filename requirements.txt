@@ -6,8 +6,8 @@ WTForms==3.1.2
 Flask-WTF==1.2.1
 Flask-Migrate==4.0.7
 Flask-Admin==1.6.1
+Flask-Login==0.6.3
 pillow==10.3.0
-Flask-Security==3.0.0
 pytz==2024.1
 dnspython==2.6.1
 email_validator==2.1.1
