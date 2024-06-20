@@ -3,10 +3,10 @@ from flask_admin import Admin
 
 from . import app, db
 from .models import Project, Tag, Blog, ProjectImage, BlogImage, User
-from .admin_views import (ProjectAdminView, AllProjectsView, TagsAdminView,
-                          BlogAdminView, ProjectImagesAdminView,
-                          BlogImagesAdminView, AllBlogsView, LoginView,
-                          LogoutView, UserAdminView)
+from .admin_routes import (ProjectAdminView, AllProjectsView, TagsAdminView,
+                           BlogAdminView, ProjectImagesAdminView,
+                           BlogImagesAdminView, AllBlogsView, LoginView,
+                           LogoutView, UserAdminView)
 
 
 admin = Admin(app, 'Go to MyArt', index_view=AllProjectsView(),

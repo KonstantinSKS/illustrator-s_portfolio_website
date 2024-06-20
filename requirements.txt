@@ -12,3 +12,4 @@ pytz==2024.1
 dnspython==2.6.1
 email_validator==2.1.1
 idna==3.7
+psycopg2-binary==2.9.9

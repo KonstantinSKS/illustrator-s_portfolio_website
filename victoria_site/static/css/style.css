@@ -157,7 +157,7 @@ body {
     position: relative; /* Для позиционирования overlay */
     overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
     text-align: center; /* Центровка текста внутри проекта */
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .project img {

@@ -1,4 +1,4 @@
-# import os
+import os
 
 from flask import Flask, g
 from flask_migrate import Migrate
@@ -25,6 +25,6 @@ def before_request():
 def inject_user():
     return dict(user=g.user)
 
-from . import models, admin, admin_views, cli_commands, error_handlers, views  # noqa
+from . import admin_routes, models, admin, cli_commands, error_handlers, routes  # noqa
 
 # db.create_all()
