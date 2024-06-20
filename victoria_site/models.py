@@ -1,11 +1,15 @@
 import os
 from datetime import date
+from dotenv import load_dotenv
 
 # from flask_security import (Security, RoleMixin, UserMixin,
 #                             SQLAlchemyUserDatastore)
 from flask_login import UserMixin
 
 from . import db, app, manager
+
+load_dotenv()
+
 
 """Table for project tags."""
 project_tags = db.Table(

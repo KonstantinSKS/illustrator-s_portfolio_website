@@ -51,10 +51,10 @@ class LoginView(BaseView):
     @expose('/', methods=['GET', 'POST'])
     def login(self):
         if request.method == 'POST':
-            email = request.form.get('email')
+            username = request.form.get('username')
             password = request.form.get('password')
-            if email and password:
-                user = User.query.filter_by(email=email).first()
+            if username and password:
+                user = User.query.filter_by(username=username).first()
                 if user and user.password == password:
                     login_user(user)
                     next_page = request.args.get('next')
