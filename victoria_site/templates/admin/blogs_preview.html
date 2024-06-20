@@ -1,7 +1,6 @@
 {% extends 'admin/master.html' %}
 
 {% block body %}
-{% if current_user.is_authenticated %}
 <head>
   <meta charset="UTF-8">
   <style>
@@ -13,40 +12,38 @@
           text-align: right;
           padding: 20px;
       }
-      .projects {
+      .blogs {
           display: flex;
           flex-wrap: wrap;
           justify-content: space-around;
           padding: 20px;
       }
-      .project {
+      .blog {
           width: 40%;
           margin: 5px;
           border: 1px solid #ccc;
           padding: 10px;
           box-sizing: border-box;
       }
-      .project img {
+      .blog img {
           max-width: 100%;
           height: auto;
       }
   </style>
 </head>
 <body>
-  <div class="projects">
-    {% for project in projects %}
-    <div class="project">
-        <h2>{{ project.title }}</h2>
-        {% if project.images|length > 0 %}
-        <p><a href="{{ url_for('project_view', id=project.id) }}">
-            <img src="{{ url_for('static', filename=project.images[0].image_path) }}" alt="Project image">
+  <div class="blogs">
+    {% for blog in blogs %}
+    <div class="blog">
+        <h2>{{ blog.title }}</h2>
+        <p>{{ blog.text }}</p>
+        {% if blog.images|length > 0 %}
+        <p><a href="{{ url_for('blog_view', id=blog.id) }}">
+            <img src="{{ url_for('static', filename=blog.images[0].image_path) }}" alt="Blog image">
         </a></p>
         {% endif %}
-        <p>{{ project.text }}</p>
-        <div> {% for tag in project.tags %}<span>#{{ tag.name }} </span>{% endfor %}</div>
     </div>
     {% endfor %}
   </div>
 </body>
-{% endif %}
 {% endblock %}

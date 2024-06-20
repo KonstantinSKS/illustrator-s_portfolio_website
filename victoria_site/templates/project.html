@@ -1,52 +1,29 @@
-{% extends "base.html" %} 
-{% block title %}project {{ project.id }}{%endblock %} 
+{% extends "base.html" %}
+{% block title %}project {{ project.id }}{% endblock %}
 {% block content %}
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ project.title or "Проект" }}</title>
-    <style>
-        .project-image img {
-            width: 70%; /* Подстраиваем изображение по ширине контейнера */
-            max-width: 400px; /* Максимальная ширина изображения */
-            height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
-        }
-        .tags {
-            margin-top: 10px;
-            font-size: 16px;
-            font-style: italic;
-        }
-        .tag {
-            display: inline-block;
-            margin-right: 5px;
-            color: #007BFF; /* Синий цвет тэгов для лучшей видимости */
-        }
-    </style>
-</head>
-<body>
-    <div class="project">
-        {% if project.title %}
-          <h1>{{ project.title }}</h1>
-        {% else %}
-          <p></p>
-        {% endif %}
-        {% if project.images %}
+<div class="project-container">
+    {% if project.title %}
+        <h1 class="project-title">{{ project.title }}</h1>
+    {% endif %}
+    {% if project.text %}
+        <p class="project-text">{{ project.text }}</p>
+    {% endif %}
+    <div class="project-images">
+        {% for image in project.images %}
             <div class="project-image">
-              {% for image in project.images %}
                 <img src="{{ url_for('static', filename=image.image_path) }}" alt="Project image">
-              {% endfor %}
             </div>
-        {% else %}
-            <p>No image.</p>
-        {% endif %}
-        <div class="project-description">
-            <p>{{ project.text }}</p>
-        </div>
-        <div class="tags">
-            {% for tag in project.tags %}
-                <span class="tag">#{{ tag.name }}</span>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-</body>
+    <div class="tags">
+        {% for tag in project.tags %}
+            <span class="tag">#{{ tag.name }}</span>
+        {% endfor %}
+    </div>
+</div>
+<div id="scrollTopButton" class="scroll-top-button" onclick="scrollToTop()">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M12 5.5L6 11.5M12 5.5L18 11.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
 {% endblock %}

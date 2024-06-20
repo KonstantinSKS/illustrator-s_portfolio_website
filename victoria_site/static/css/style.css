@@ -1,79 +1,453 @@
 @font-face {
-    font-family: "Montserrat";
-    src: local("Montserrat"),
-      url(../fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
-  }
+    font-family: 'Circe';
+    src: local('Circe'),
+        url(/static/fonts/Circe/circe-bold.ttf),
+        url(/static/fonts/Circe/circe-extrabold.ttf),
+        url(/static/fonts/Circe/circe-extralight.ttf),
+        url(/static/fonts/Circe/circe-light.ttf),
+        url(/static/fonts/Circe/circe-thin.ttf),
+        url(/static/fonts/Circe/circe.ttf);
+}
 
+/* Общие стили для всех страниц */
 body {
-    font-family: Montserrat, Arial, sans-serif;
-    background-color: #F9F9F9;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    color: #272727;
-}
-p, a {
-    font-size: 20px;
+    font-family: 'Circe', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-a.nav-link, a {
-    color: #272727;
-
+/* Стили для header */
+.header {
+    background-color: #fff;
+    position: auto;
+    width: 100%;
+    z-index: 1000;
 }
 
-a.nav-link:hover, a:hover {
-    color: #00D6D6;
-}
-.nav-pills a.nav-link.active {
-    background-color: #00D6D6;
-    border-radius: 20px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 10px; /* Уменьшаем отступы */
 }
 
-h1 {
-    font-size: 42px;
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
 }
 
-p.small {
+.label-image {
+    max-height: 80px;
+    width: auto;
+    margin-top: 40px;
+    padding: 0 10px;
+    /*border: 2px solid red;*/ /*Рамка*/
+}
+
+.artist-name {
+    text-decoration: none;
+    font-size: 2rem;
+    color: #000; /* Ваш цвет текста */
+    padding: 0 10px;
+    /* font-weight: bold; Ваше начертание текста */
+}
+
+.artist-name:hover {
+    color: black;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin-left: 5px; /* Отступ между ссылками */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgb(75, 75, 75); /* Ваш цвет текста */
+    font-size: 1rem;
+    font-weight: bold; /* Ваше начертание текста */
+}
+
+.nav-link:hover {
+    color: #000; /* Ваш цвет текста */
+}
+
+/* Новый стиль для активной ссылки */
+.nav-link.active {
+    /*text-decoration: underline;*/
+    color: #000; /* Цвет текста активной ссылки, можно настроить */
+}
+
+/* Стили для фильтра */
+.filter {
+    align-self: flex-end; /* Выравниваем фильтр по правому краю */
+    margin-bottom: 20px; /* Расстояние между фильтром и проектами */
+    padding: 0 10px;
+}
+
+/* Стили для надписи "Фильтр по тэгам:" */
+.filter-label {
+    font-size: 1rem; /* Уменьшенный размер шрифта */
+    font-weight: normal; /* Не жирный шрифт */
+    color: black; /* Светло-оранжевый цвет */
+}
+
+/* Стили для окна сортировки по тэгам */
+.filter select {
+    border: 2px solid black; /* Очень светлый оранжевый цвет для рамки */
+    color: black; /* Светло-оранжевый текст */
+    padding: 1px;
+    font-size: 1rem;
+    background-color: white; /* Белый фон */
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Стили для окна сортировки по тэгам при фокусе */
+.filter select:focus {
+    border-color: black; /* Темно-оранжевая рамка при фокусе */
+}
+
+/* Стили для опций в выпадающем списке */
+.filter select option {
+    color: black; /* Цвет текста в опциях */
+}
+
+/* Стили для опций при наведении */
+.filter select option:hover {
+    background-color: #FFA500; /* Светло-оранжевый фон при наведении */
+    color: white; /* Белый текст при наведении */
+}
+
+/* Стили для опций при выделении */
+.filter select option:checked {
+    background-color: rgb(68, 67, 67); /* Светло-оранжевый фон при выделении */
+    color: white; /* Белый текст при выделении */
+}
+
+/* Стили для контейнера фильтра и проектов */
+.filter-projects-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    /*padding: 0 10px; /* Уменьшаем отступы */
+}
+
+/* Стили для проекта на главной странице */
+.projects {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Три колонки */
+    gap: 20px; /* Отступы между проектами */
+    width: 100%; /* Занимать всю ширину контейнера */
+    padding: 0 10px; /* Уменьшаем отступы */
+}
+
+.project {
+    position: relative; /* Для позиционирования overlay */
+    overflow: hidden; /* Для скрытия части overlay, выходящей за пределы */
+    text-align: center; /* Центровка текста внутри проекта */
+    margin-bottom: 10px;
+}
+
+.project img {
+    width: 100%; /* Ширина изображения занимает всю ширину контейнера */
+    height: auto; /* Высота изображения подстраивается по ширине, сохраняя пропорции */
+    display: block;
+    transition: all 0.3s ease; /* Плавный переход для всех изменений */
+}
+
+.project .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 30, 30, 0.8); /* Темно-темно-серый цвет с прозрачностью */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Плавный переход для прозрачности */
+}
+
+.project:hover .overlay {
+    opacity: 1;
+}
+
+.project-title-overlay {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Стили для страницы проекта */
+.project-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.project-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 40px; /* Увеличенный отступ сверху */
+}
+
+.project-text {
+    margin-bottom: 20px;
     font-size: 18px;
-    color: #8E8E8E;
-}
-.form-control-lg {
-    border-radius: 20px;
-
-}
-
-.form-control:focus {
-    background-color: #FFF;
-    border-color: #00D6D6;
-    outline: 0;
-    box-shadow: 0 0 0 2px rgb(0, 214, 214, 1);
-  }
-
-textarea {
-    resize: none;
+    max-width: 800px; /* Установите максимальную ширину для удобочитаемости */
+    margin: 0 auto; /* Центровка текста */
+    margin-bottom: 30px;
+    /*text-align: justify; /* Выравнивание текста по ширине для лучшей читаемости */
 }
 
-.button {
-    background-color: #3BBEBE;
-    border-radius: 20px;
-    color: #FFF;
-    font-size: 20px;
+.project-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
 }
 
-.button:hover {
-    background-color: #00D6D6;
-    color: #FFF;
+.project-image {
+    /*margin-top: 30px; /* Отступ сверху*/
+    /*margin-bottom: 20px; /* Отступ снизу*/
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
+}
+
+.project-image img {
+    max-width: 100%;
+    width: 100%; /* Добавлено: изображение растягивается по ширине */
+    height: auto; /* Сохраняем пропорции изображения */
+}
+
+.tags {
+    text-align: center;
+    margin-top: 20px;
 }
 
 
+/* Стили для контейнера блогов */
+.blogs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px; /* Уменьшаем отступы */
+}
 
-@media (max-width: 600px) {
-    p {
-        text-align: justify;
-    }
-    h1 {
-        text-align: center;
-    }
-    .navbar-brand {
-        margin: 0 auto;
-    }
+/* Стили для блога */
+.blog {
+    width: 90%; /* Ширина блога 80% от контейнера */
+    max-width: 800px; /* Максимальная ширина блога */
+    margin: 10px auto; /* Центрирование блога с отступами сверху и снизу */
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.blog img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.blog .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(30, 30, 30, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.blog:hover .overlay {
+    opacity: 1;
+}
+
+.blog-title-overlay {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.blog-title-link {
+    text-decoration: none;
+    color: black;
+    transition: font-weight 0.3s ease, color 0.3s ease;
+}
+
+.blog-title-link:hover {
+    font-weight: bold;
+    color: black;
+}
+
+/* Стили для страницы блога */
+.blog-container {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Стили для блога */
+.blog-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 40px; /* Увеличенный отступ сверху для заголовка блога */
+}
+
+.blog-image {
+    /*margin-top: 40px; /* Увеличенный отступ сверху для изображения блога */
+    width: 100%;
+    height: auto;
+}
+
+
+.blog-image img {
+    max-width: 100%;
+    width: 100%; /* Добавлено: изображение растягивается по ширине */
+    height: auto; /* Сохраняем пропорции изображения */
+}
+
+.blog-text {
+    margin-bottom: 20px;
+    font-size: 18px;
+    max-width: 800px; /* Установите максимальную ширину для удобочитаемости */
+    margin: 0 auto; /* Центровка текста */
+    margin-bottom: 30px;
+    /*text-align: justify; /* Выравнивание текста по ширине для лучшей читаемости */
+}
+
+.blog-images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%; /* Добавлено: изображение занимает всю ширину */
+}
+
+/* Стили для футера */
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+footer p {
+    color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный цвет */
+}
+
+/* Стили для страницы About */
+.about-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Выравнивание по верхнему краю */
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.about-header {
+    text-align: left;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 20px; /* Убрано: margin-top */
+}
+
+.about-description {
+    width: 45%;
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    /* margin-top: 20px; Убрано: лишний отступ сверху */
+}
+
+.about-avatar {
+    width: 45%;
+    text-align: left;
+    padding-left: 20px;
+    margin-top: 40px;
+    /* margin-top: 20px; Убрано: лишний отступ сверху */
+}
+
+.about-avatar img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.about-links {
+    display: flex;
+    justify-content: flex-end; /* Выравнивание по правому краю */
+    flex-direction: column;
+    margin-top: 20px; /* Отступ сверху для ссылок */
+}
+
+.about-link {
+    color: rgb(75, 75, 75);
+    font-weight: bold;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.about-link:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #f0ad4e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: none;
+}
+
+/* Кнопка "Наверх" */
+.scroll-top-button {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.25); /* Бледнее в два раза */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Скрыта по умолчанию */
+    z-index: 1000;
+    transition: opacity 0.3s;
+}
+
+.scroll-top-button:hover {
+    background-color: rgba(0, 0, 0, 0.35); /* Темнее при наведении */
 }

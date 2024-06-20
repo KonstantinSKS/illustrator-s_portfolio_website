@@ -4,7 +4,12 @@ Werkzeug==2.3.7
 Flask-SQLAlchemy==3.1.1
 WTForms==3.1.2
 Flask-WTF==1.2.1
-# Flask-Migrate==4.0.5
 Flask-Migrate==4.0.7
 Flask-Admin==1.6.1
+Flask-Login==0.6.3
 pillow==10.3.0
+pytz==2024.1
+dnspython==2.6.1
+email_validator==2.1.1
+idna==3.7
+psycopg2-binary==2.9.9

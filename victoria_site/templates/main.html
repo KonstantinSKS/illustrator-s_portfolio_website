@@ -1,42 +1,12 @@
-{% extends "base.html" %} 
-{% block title %}projects{% endblock %} 
+{% extends "base.html" %}
+{% block title %}projects{% endblock %}
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        .filter {
-            text-align: right;
-            padding: 20px;
-        }
-        .projects {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-        .project {
-            width: 40%;
-            margin: 5px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        .project img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-</head>
-<body>
+<div class="filter-projects-container">
     <div class="filter">
-        <h3>Фильтр по тэгам:</h3>
+        <h3 class="filter-label">Filter by tags:</h3>
         <form action="{{ url_for('index_view') }}" method="get">
             <select name="tag" onchange="this.form.submit()">
-                <option value="all">Показать все</option>
+                <option value="all">Show all</option>
                 {% for tag in tags %}
                 <option value="{{ tag.name }}" {% if tag.name == current_tag %}selected{% endif %}>{{ tag.name }}</option>
                 {% endfor %}
@@ -46,20 +16,24 @@
     <div class="projects">
         {% for project in projects %}
         <div class="project">
-            {% if project.title %}
-              <h2>{{ project.title }}</h2>
-            {% else %}
-              <p></p>
-            {% endif %}
             {% if project.images|length > 0 %}
-            <p><a href="{{ url_for('project_view', id=project.id) }}">
+            <a href="{{ url_for('project_view', id=project.id) }}">
                 <img src="{{ url_for('static', filename=project.images[0].image_path) }}" alt="Project image">
-            </a></p>
+                <div class="overlay">
+                    {% if project.title %}
+                    <div class="project-title-overlay">{{ project.title }}</div>
+                    {% endif %}
+                </div>
+            </a>
             {% endif %}
-            <p>{{ project.text }}</p>
-            <div> {% for tag in project.tags %}<span>#{{ tag.name }} </span>{% endfor %}</div>
+            <!--div> {% for tag in project.tags %}<span>#{{ tag.name }} </span>{% endfor %}</div-->
         </div>
         {% endfor %}
     </div>
-</body>
+</div>
+<div id="scrollTopButton" class="scroll-top-button" onclick="scrollToTop()">
+    <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M12 5.5L6 11.5M12 5.5L18 11.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
 {% endblock %}

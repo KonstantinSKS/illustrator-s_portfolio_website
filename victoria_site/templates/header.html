@@ -1,9 +1,27 @@
-<header class="pt-3">
-  <div class="header">
-    <ul>
-        <a href="{{ url_for('index_view') }}">WORKS</a>
-        <a href="{{ url_for('about_view') }}">ABOUT + CONTACT</a>
-        <a href="{{ url_for('all_blogs_view') }}">BLOG</a>
-    </ul>
-</div>
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            {% if user.label %}
+                <a href="{{ url_for('index_view') }}"><img src="{{ url_for('static', filename=user.label) }}" class="label-image"></a>
+            {% else %}
+            <div class="header-left">
+                <span><a href="{{ url_for('index_view') }}" span class="artist-name">{{ user.artist_name }}</a></span>
+            </div>
+            {% endif %}
+            <div class="header-right">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'index_view' %}active{% endif %}" href="{{ url_for('index_view') }}">WORKS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'about_view' %}active{% endif %}" href="{{ url_for('about_view') }}">ABOUT + CONTACT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'all_blogs_view' %}active{% endif %}" href="{{ url_for('all_blogs_view') }}">BLOG</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </header>
+  
