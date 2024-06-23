@@ -108,7 +108,7 @@ class User(db.Model, UserMixin):
     artist_name = db.Column(db.String(120), nullable=True)
     image = db.Column(db.String(256), nullable=True)
     label = db.Column(db.String(256), nullable=True)
-    description = db.Column(db.Text(512), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     instagram_link = db.Column(db.String(256), nullable=True)
     behance_link = db.Column(db.String(256), nullable=True)
 

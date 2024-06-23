@@ -11,9 +11,7 @@ services:
     env_file:
       - .env
     volumes:
-      - pg_data:/var/lib/postgresql/
-    ports:
-      - 5432:5432
+      - pg_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "sh -c 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB'" ]
       interval: 5s
@@ -22,7 +20,7 @@ services:
     restart: always
 
   backend:
-    build: ./
+    image: konstantinsks/illustrator_site:latest
     restart: always
     volumes:
       - static:/app/static
@@ -32,13 +30,13 @@ services:
         condition: service_healthy
     env_file: .env
     command: gunicorn --bind 0.0.0.0:5000 run:app
-    ports:
-      - 5000:5000
+    expose:
+      - 5000
 
   nginx:
-    build: ./
+    build: nginx
     ports:
-      - 80:80
+      - 5000:80
     depends_on:
       - backend
     restart: always
