@@ -1,10 +1,6 @@
-# import os
-
 from flask import Flask, g
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-# from flask_security import (Security,
-#                             SQLAlchemyUserDatastore)
 from flask_login import LoginManager, current_user
 
 from settings import Config
@@ -26,5 +22,3 @@ def inject_user():
     return dict(user=g.user)
 
 from . import admin_routes, models, admin, cli_commands, error_handlers, routes  # noqa
-
-# db.create_all()
