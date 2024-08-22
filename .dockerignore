@@ -1,0 +1,12 @@
+venv
+.git
+db.sqlite3
+instance
+instance/
+.idea
+.vscode
+# .env
+media/
+.media/
+user_images/
+.user_images/

@@ -1,11 +1,15 @@
 import os
 from datetime import date
+from dotenv import load_dotenv
 
 # from flask_security import (Security, RoleMixin, UserMixin,
 #                             SQLAlchemyUserDatastore)
 from flask_login import UserMixin
 
 from . import db, app, manager
+
+load_dotenv()
+
 
 """Table for project tags."""
 project_tags = db.Table(
@@ -104,7 +108,7 @@ class User(db.Model, UserMixin):
     artist_name = db.Column(db.String(120), nullable=True)
     image = db.Column(db.String(256), nullable=True)
     label = db.Column(db.String(256), nullable=True)
-    description = db.Column(db.Text(512), nullable=True)
+    description = db.Column(db.Text, nullable=True)
     instagram_link = db.Column(db.String(256), nullable=True)
     behance_link = db.Column(db.String(256), nullable=True)
 
@@ -172,25 +176,18 @@ class User(db.Model, UserMixin):
 #         )
 #     db.session.commit()
 
-"""Creates all db tables and User instance if not exists."""
+
+"""Creates all db tables."""
 with app.app_context():
     db.create_all()
 
-    existing_user = User.query.filter_by(email=os.getenv('EMAIL')).first()
-    if not existing_user:
-        new_user = User(
-            role=os.getenv('ROLE'),
-            username=os.getenv('USERNAME'),
-            email=os.getenv('EMAIL'),
-            password=os.getenv('PASSWORD')
-        )
-        db.session.add(new_user)
-        db.session.commit()
-
-    # if not user_datastore.find_user(email=os.getenv('EMAIL')):
-    #     user_datastore.create_user(
-    #         username=os.getenv('USERNAME'),
-    #         email=os.getenv('EMAIL'),
-    #         password=os.getenv('PASSWORD')
-    #     )
-    # db.session.commit()
+#     existing_user = User.query.filter_by(email=os.getenv('EMAIL')).first()
+#     if not existing_user:
+#         new_user = User(
+#             role=os.getenv('ROLE'),
+#             username=os.getenv('USERNAME'),
+#             email=os.getenv('EMAIL'),
+#             password=os.getenv('PASSWORD')
+#         )
+#         db.session.add(new_user)
+#         db.session.commit()
