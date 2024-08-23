@@ -5,10 +5,12 @@ instance
 instance/
 .idea
 .vscode
-media
-/media
-/static/media
-user_images
-/user_images
-/static/user_images
+/victoria_site/static/media/
+/victoria_site/static/media
+victoria_site/static/media/
+victoria_site/static/media
+/victoria_site/static/user_images/
+/victoria_site/static/user_images
+victoria_site/static/user_images/
+victoria_site/static/user_images
 # .env
