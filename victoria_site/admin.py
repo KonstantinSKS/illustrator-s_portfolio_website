@@ -1,5 +1,4 @@
 from flask_admin import Admin
-# from flask_admin.contrib.sqla import ModelView
 
 from . import app, db
 from .models import Project, Tag, Blog, ProjectImage, BlogImage, User
@@ -13,7 +12,6 @@ admin = Admin(app, 'Go to MyArt', index_view=AllProjectsView(),
               template_mode='bootstrap4', url='/')
 admin.add_view(LoginView(name='Login', url='login'))
 admin.add_view(UserAdminView(User, db.session, name='Your_profile'))
-# admin.add_view(ModelView(User, db.session))
 admin.add_view(ProjectAdminView(Project, db.session, name='Projects'))
 admin.add_view(ProjectImagesAdminView(ProjectImage, db.session,
                                       name='Project_images'))

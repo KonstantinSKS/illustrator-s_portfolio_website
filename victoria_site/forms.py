@@ -1,17 +1,16 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed  # FileRequired
-from wtforms import (StringField, SubmitField,
-                     TextAreaField,
-                     MultipleFileField
-                     )  # FileField widgets SelectMultipleField
-from wtforms.validators import Length, Optional  # , DataRequired
-# SelectMultipleField SelectField ??
-# from flask_admin.form import Select2Widget
-from .models import Tag
-from . import app
+# from flask_wtf import FlaskForm
+# from flask_wtf.file import FileAllowed
+# from wtforms import (StringField, SubmitField,
+#                      TextAreaField,
+#                      MultipleFileField
+#                      )
+# from wtforms.validators import Length, Optional
 
-with app.app_context():
-    tags = Tag.query.all()
+# from .models import Tag
+# from . import app
+
+# with app.app_context():
+#     tags = Tag.query.all()
 
 
 # class MultiCheckboxField(SelectMultipleField):
@@ -61,20 +60,20 @@ with app.app_context():
 #         # validators=[DataRequired()],
 #         choices=[tag.name for tag in tags])
 
-    # submit = SubmitField('Добавить')
+#   submit = SubmitField('Добавить')
 
 
-class BLogForm(FlaskForm):
-    title = StringField(
-        'Введите заголовок записи',
-        validators=[Length(1, 128), Optional()]
-    )
-    image = MultipleFileField('Загрузить изображение/видео', validators=[
-        FileAllowed(app.config['ALLOWED_EXTENSIONS'],
-                    'Недопустимый формат файла!')
-    ])
-    text = TextAreaField(
-        'Ваша запись в блоге',
-        validators=[Length(1, 256), Optional()]  # уточнить max длину текста
-    )
-    submit = SubmitField('Добавить')
+# class BLogForm(FlaskForm):
+#     title = StringField(
+#         'Введите заголовок записи',
+#         validators=[Length(1, 128), Optional()]
+#     )
+#     image = MultipleFileField('Загрузить изображение/видео', validators=[
+#         FileAllowed(app.config['ALLOWED_EXTENSIONS'],
+#                     'Недопустимый формат файла!')
+#     ])
+#     text = TextAreaField(
+#         'Ваша запись в блоге',
+#         validators=[Length(1, 256), Optional()]  # уточнить max длину текста
+#     )
+#     submit = SubmitField('Добавить')

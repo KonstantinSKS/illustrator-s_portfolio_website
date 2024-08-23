@@ -1,10 +1,9 @@
 
-from flask import request, url_for, redirect, flash  # render_template,
+from flask import request, url_for, redirect, flash
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView, BaseView, expose
 from flask_admin.form import ImageUploadField
 from flask_login import login_user, login_required, logout_user, current_user
-# from flask_security import login_required
 from markupsafe import Markup
 from wtforms.validators import DataRequired, NumberRange, Email
 from wtforms import MultipleFileField
@@ -20,10 +19,9 @@ AVAILABLE_USER_TYPES = [
     (u'editor', u'editor')
 ]
 
-# ИМПОРТИРОВАТЬ ТОЛЬКО FLASK LOGIN, FLASK SEQURITY УБРАТЬ!!!
-
 
 class AuthModelView(ModelView):
+    """A custom view to check user authentication."""
     def is_accessible(self):
         return current_user.is_authenticated
 
@@ -31,15 +29,8 @@ class AuthModelView(ModelView):
         return redirect(url_for('login'))
 
 
-# class AuthAdminIndexView(AdminIndexView):
-#     def is_accessible(self):
-#         return current_user.is_authenticated
-
-#     def inaccessible_callback(self, name, **kwargs):
-#         return redirect(url_for('login'))
-
-
 class AuthBaseView(BaseView):
+    """A custom view to check user authentication."""
     def is_accessible(self):
         return current_user.is_authenticated
 
@@ -48,6 +39,7 @@ class AuthBaseView(BaseView):
 
 
 class LoginView(BaseView):
+    """A custom admin view for login."""
     @expose('/', methods=['GET', 'POST'])
     def login(self):
         if request.method == 'POST':
@@ -67,6 +59,7 @@ class LoginView(BaseView):
 
 
 class LogoutView(BaseView):
+    """A custom admin view for logout."""
     @expose('/')
     @login_required
     def logout(self):
@@ -84,10 +77,8 @@ def redirect_to_signin(response):
 class AllProjectsView(AdminIndexView):
     """A custom admin view for displaying all projects."""
     @expose('/')
-    # @login_required
     def admin_projects(self):
         projects = Project.query.order_by(Project.order).all()
-        # projects = Project.query.all()
         return self.render('admin/index.html', projects=projects)
 
 
@@ -101,7 +92,8 @@ class AllBlogsView(AuthBaseView):
 
 class UserAdminView(AuthModelView):
     """A custom admin view for User model."""
-    # column_list = ['role', 'username', 'email', 'password', 'artist_name', 'image', 'label', 'description', 'instagram_link', 'behance_link']
+    # column_list = ['role', 'username', 'email', 'password', 'artist_name',
+    # 'image', 'label', 'description', 'instagram_link', 'behance_link']
     column_labels = {
         'image': 'Avatar',
         'description': 'About me'
@@ -157,7 +149,7 @@ class UserAdminView(AuthModelView):
         'image': ('Upload your avatar '
                   'to display it on the about + contact page.'),
         'label': ('Upload an image if you want to display it '
-                  'instead of your name on the site.'),  # ВОзможно надо указать размеры изображения!!!
+                  'instead of your name on the site.'),
         'description': 'Tell us about yourself here.'
     }
     column_exclude_list = ['password']

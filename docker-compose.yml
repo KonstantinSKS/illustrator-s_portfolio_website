@@ -37,7 +37,6 @@ services:
 
   nginx:
     image: nginx:latest
-    # build: ./
     ports:
       - 80:80
     volumes:
