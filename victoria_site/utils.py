@@ -40,6 +40,10 @@ def save_images(files, model, obj, obj_attr='project'):
     """Saves images to the static/media folder
                     and
     generates unique file names when saving."""
+    upload_folder = os.path.join(app.static_folder, app.config['UPLOAD_FOLDER'])
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder, exist_ok=True)
+
     for file in files:
         if file and file.filename:
             filename = secure_filename(file.filename)
