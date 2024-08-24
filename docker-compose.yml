@@ -36,7 +36,6 @@ services:
     command: gunicorn --bind 0.0.0.0:5000 run:app
     ports:
       - 5000:5000
-      
 
   nginx:
     image: nginx:latest
