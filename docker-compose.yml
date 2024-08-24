@@ -21,8 +21,9 @@ services:
     build: ./
     restart: always
     volumes:
-      - static_data:/app/victoria_site/static
-      - media_data:/app/victoria_site/static
+      - static_data:/backend_static
+      # - static_data:/app/victoria_site/static
+      # - media_data:/app/victoria_site/static
       # - static:/app/static
       # - media:/app/media
     depends_on:
@@ -39,9 +40,9 @@ services:
       - 80:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - static_data:/app/victoria_site/static
-      - media_data:/app/victoria_site/static
-      # - ./victoria_site/static:/static
+      - static_data:/backend_static
+      - ./victoria_site/static:/backend_static
+      # - ./victoria_site/static:/app/victoria_site/static
       # - ./victoria_site/static:/media
     depends_on:
       - backend
@@ -50,7 +51,7 @@ services:
 volumes:
   pg_data:
   static_data:
-  media_data:
+  # media_data:
 
     # image: nginx:latest
     # ports:
