@@ -51,30 +51,3 @@ volumes:
   pg_data:
   static_data:
   # media_data:
-
-    # image: nginx:latest
-    # ports:
-    #   - "80:80"
-    # volumes:
-    #   - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    #   - static:/app/static
-    #   - media:/app/media
-    # depends_on:
-    #   - backend
-    # restart: always
-
-
-  # web:
-  #   build: .
-  #   command: flask run --host=0.0.0.0
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - .:/app
-  #   environment:
-  #     - FLASK_DEBUG=${FLASK_DEBUG}
-  #     - POSTGRES_DATABASE_URL=postgresql://postgres:postgres@db/postgres
-  #     - SQLITE_DATABASE_URL=sqlite:///db.sqlite3
-  #     - SECRET_KEY=${SECRET_KEY}
-  #   depends_on:
-  #     - db
