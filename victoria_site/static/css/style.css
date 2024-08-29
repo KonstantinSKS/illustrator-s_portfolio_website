@@ -20,6 +20,7 @@ body {
 
 /* Стили для header */
 .header {
+    display: flex; /* Новое */
     background-color: #fff;
     position: auto;
     width: 100%;
@@ -42,6 +43,7 @@ body {
 }
 
 .label-image {
+    display: flex;  /* Новое */
     max-height: 80px;
     width: auto;
     margin-top: 40px;
@@ -50,6 +52,7 @@ body {
 }
 
 .artist-name {
+    display: flex;  /* Новое */
     text-decoration: none;
     font-size: 2rem;
     color: #000; /* Ваш цвет текста */
