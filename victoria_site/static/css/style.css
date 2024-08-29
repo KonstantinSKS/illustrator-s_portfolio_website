@@ -21,6 +21,7 @@ body {
 /* Стили для header */
 .header {
     display: flex; /* Новое */
+    align-items: flex-start; /* Выравнивание по верхнему краю */  /* Новое */
     background-color: #fff;
     position: auto;
     width: 100%;
