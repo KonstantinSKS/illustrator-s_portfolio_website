@@ -31,11 +31,11 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(128), nullable=True)
     images = db.relationship('ProjectImage', back_populates='project',
-                             lazy='subquery', cascade='all, delete-orphan',
+                             lazy='select', cascade='all, delete-orphan',
                              order_by='ProjectImage.order')
     text = db.Column(db.Text, unique=False, nullable=True)
     tags = db.relationship('Tag', secondary='project_tags',
-                           lazy='subquery',
+                           lazy='select',
                            backref=db.backref('projects', lazy=True))
     order = db.Column(db.Integer, nullable=True, default=0)
 
