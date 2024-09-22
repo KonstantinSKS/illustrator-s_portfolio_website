@@ -457,3 +457,37 @@ footer p {
 .scroll-top-button:hover {
     background-color: rgba(0, 0, 0, 0.35); /* Темнее при наведении */
 }
+
+@media (max-width: 991.98px) {
+    .header {
+        position: relative;
+    }
+
+    .navbar {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: static;
+    }
+
+    .navbar-toggler {
+        cursor: pointer;
+    }
+
+    .navbar-collapse {
+        display: none;
+        transition: all 0.3s ease;
+        width: 100vw;
+        background-color: #f8f9fa;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        padding: 10px 20px;
+    }
+
+    .navbar-collapse.show {
+        display: block;
+    }
+}

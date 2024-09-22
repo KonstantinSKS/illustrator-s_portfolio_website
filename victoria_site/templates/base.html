@@ -35,6 +35,16 @@
                 behavior: 'smooth'
             });
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+            toggler.addEventListener('click', function() {
+                const isExpanded = toggler.getAttribute('aria-expanded') === 'true';
+                toggler.setAttribute('aria-expanded', !isExpanded);
+                navbarCollapse.classList.toggle('show');
+            });
+        });
     </script>    
 </body>
 </html>
