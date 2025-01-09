@@ -12,8 +12,7 @@ Rus:
 The website is available via the link: https://victoriastebleva.com/
 
 ## Technologies:
-![Python](https://img.shields.io/badge/python%203.9)
-https://img.shields.io/badge/python%203.9
+![Python](https://img.shields.io/badge/Python-3.9-blue)
 
 Flask, Flask-SQLAlchemy, WTForms и Flask-WTF, Flask-Admin, Jinja2.
 
