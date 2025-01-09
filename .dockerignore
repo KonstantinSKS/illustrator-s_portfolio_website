@@ -1,0 +1,16 @@
+venv
+.git
+db.sqlite3
+instance
+instance/
+.idea
+.vscode
+/victoria_site/static/media/
+/victoria_site/static/media
+victoria_site/static/media/
+victoria_site/static/media
+/victoria_site/static/user_images/
+/victoria_site/static/user_images
+victoria_site/static/user_images/
+victoria_site/static/user_images
+# .env

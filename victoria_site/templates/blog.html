@@ -1,33 +1,27 @@
 {% extends "base.html" %} 
 {% block title %}blog {{ blog.id }}{%endblock %} 
 {% block content %}
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>{{ blog.title or "Блог" }}</title>
-    <style>
-        .blog-image img {
-            width: 100%; /* Подстраиваем изображение по ширине контейнера */
-            max-width: 400px; /* Максимальная ширина изображения */
-            height: auto; /* Высота автоматически изменяется, сохраняя пропорции */
-        }
-    </style>
-</head>
-<body>
-    <div class="blog">
-        <h1>{{ blog.title or "Без названия" }}</h1>
-        {% if blog.image %}
-            <div class="blog-image">
-                <!-- Обновлённый путь к изображению, учитывающий новую структуру папок -->
-                <img src="{{ url_for('static', filename='media/' + blog.image) }}" alt="Изображение проекта">
-            </div>
-        {% else %}
-            <p>Изображение отсутствует.</p>
-        {% endif %}
-        <div class="project-description">
-            <p>{{ blog.text or "Нет записи." }}</p>
+<div class="blog-container">
+    {% if blog.title %}
+      <h1 class="blog-title">{{ blog.title }}</h1>
+    {% endif %}
+    {% if blog.text %}
+      <p class="blog-text">{{ blog.text }}</p>
+    {% endif %}
+    <div class="blog-images">
+    {% if blog.images %}
+        <div class="blog-image">
+          {% for image in blog.images %}
+            <img src="{{ url_for('static', filename=image.image_path) }}" alt="Blog image">
+          {% endfor %}
         </div>
-        <div>Дата публикации: {{ blog.pub_date }}</div>
     </div>
-</body>
+    {% endif %}
+    <div>{{ blog.pub_date }}</div>
+</div>
+<div id="scrollTopButton" class="scroll-top-button" onclick="scrollToTop()">
+  <svg width="24" height="24" viewBox="0 0 24 24">
+      <path d="M12 5.5L6 11.5M12 5.5L18 11.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
 {% endblock %}

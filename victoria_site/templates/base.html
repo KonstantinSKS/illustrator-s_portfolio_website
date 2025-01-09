@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="{{ url_for('static', filename='img/fav/fav.ico') }}" type="image" />
@@ -9,14 +9,42 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/fav/favicon-16x16.png') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-    <title>{% block title %}Что посмотреть{% endblock title %}</title>
-  </head>
-
-  <body>
-    <!-- Тут подключается шаблон header.html. Создадим его чуть позже -->
-    {% include "header.html" %} 
-    {% block content %}{% endblock content %}
-    <!-- Тут подключается шаблон footer.html. Его тоже скоро создадим -->
+    <title>{% block title %}Your website name{% endblock title %}</title>
+</head>
+<body>
+    {% include "header.html" %}
+    <main>
+        <div class="container">
+            {% block content %}{% endblock content %}
+        </div>
+    </main>
     {% include "footer.html" %}
-  </body>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        window.onscroll = function() {
+            const scrollTopButton = document.getElementById('scrollTopButton');
+            if (document.body.scrollTop > window.innerHeight || document.documentElement.scrollTop > window.innerHeight) {
+                scrollTopButton.style.display = 'flex';
+            } else {
+                scrollTopButton.style.display = 'none';
+            }
+        };
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+            toggler.addEventListener('click', function() {
+                const isExpanded = toggler.getAttribute('aria-expanded') === 'true';
+                toggler.setAttribute('aria-expanded', !isExpanded);
+                navbarCollapse.classList.toggle('show');
+            });
+        });
+    </script>    
+</body>
 </html>
