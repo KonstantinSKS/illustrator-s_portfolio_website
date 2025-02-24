@@ -96,3 +96,12 @@ def generate_image_name(obj, file_data):
     timestamp = datetime.now().strftime('%Y%m%d%H%M%S%f')[:-3]
     unique_filename = f"{timestamp}_{filename}"
     return unique_filename
+
+
+def make_cache_key(*args, **kwargs):
+    """Generates and returns a custom cache key."""
+    query_params = request.args
+    if not query_params:
+        return request.path
+    key_parts = [f"{key}={value}" for key, value in sorted(query_params.items())]
+    return f"{request.path}?{','.join(key_parts)}"
