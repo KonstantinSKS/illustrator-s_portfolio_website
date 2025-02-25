@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 
+from PIL import Image
 from flask import url_for, request
 from markupsafe import Markup
 from werkzeug.utils import secure_filename
@@ -51,10 +52,18 @@ def save_images(files, model, obj, obj_attr='project'):
             unique_filename = f"{timestamp}_{filename}"
             filepath = os.path.join(app.config['UPLOAD_FOLDER'],
                                     unique_filename)
-            file.save(os.path.join(app.static_folder, filepath))
-            image = model(image_path=filepath)
-            setattr(image, obj_attr, obj)
-            db.session.add(image)
+
+            image = Image.open(file)
+            image.thumbnail((3600, 3600))
+            image.save(os.path.join(app.static_folder, filepath), optimize=True, quality=90)
+            image_db = model(image_path=filepath)
+            setattr(image_db, obj_attr, obj)
+            db.session.add(image_db)
+
+            # file.save(os.path.join(app.static_folder, filepath))
+            # image = model(image_path=filepath)
+            # setattr(image, obj_attr, obj)
+            # db.session.add(image)
 
 
 def delete_images_in_editing(delete_image_paths, model):
