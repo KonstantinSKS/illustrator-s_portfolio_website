@@ -29,7 +29,7 @@ class Config(object):
     REMEMBER_COOKIE_DURATION = 3600
     CACHE_TYPE = "SimpleCache"
     CACHE_DEFAULT_TIMEOUT = 300
-    COMPRESS_ALGORITHM = ['gzip']
+    COMPRESS_ALGORITHM = ['gzip', 'br', 'zstd']
     COMPRESS_MIMETYPES = ['text/html', 'text/css', 'text/xml', 'application/json', 'application/javascript']
     COMPRESS_LEVEL = 6
     COMPRESS_MIN_SIZE = 500

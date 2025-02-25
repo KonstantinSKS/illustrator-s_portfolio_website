@@ -1,8 +1,4 @@
-import os
-
-from flask import render_template, request, send_file
-from PIL import Image
-from io import BytesIO
+from flask import render_template, request
 
 from . import app, cache
 from .models import Project, Tag, Blog, User
@@ -59,18 +55,3 @@ def blog_view(id):
     blog = Blog.query.get_or_404(id)
     return render_template('blog.html', blog=blog,
                            user=User.query.first())
-
-
-@app.route('/image/<path:path>')
-def image_view(path):
-    image_path = os.path.join(app.config['UPLOAD_FOLDER'], path)
-    if not os.path.exists(image_path):
-        return 'Image not found', 404
-
-    image = Image.open(image_path)
-    image.thumbnail((800, 600))  # Установите максимальный размер изображения
-    buffered = BytesIO()
-    image.save(buffered, format='JPEG', quality=90)
-    buffered.seek(0)
-
-    return send_file(buffered, mimetype='image/jpeg', as_attachment=True)
