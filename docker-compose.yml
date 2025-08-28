@@ -49,7 +49,7 @@ services:
 volumes:
   pg_data:
     # Для базы данных используем именованный том для персистентности
-    driver: local
+    # driver: local
   # static_data: было
   static_files:
     # Статические файлы: CSS, JS, fonts, images
