@@ -23,9 +23,11 @@ body {
     display: flex; /* Новое */
     align-items: flex-start; /* Выравнивание по верхнему краю */  /* Новое */
     background-color: #fff;
-    position: auto;
+    position: relative;
     width: 100%;
     z-index: 1000;
+    /* Добавляем отступ сверху для мобильных браузеров */
+    padding-top: env(safe-area-inset-top, 0);
 }
 
 .container {
@@ -458,9 +460,11 @@ footer p {
     background-color: rgba(0, 0, 0, 0.35); /* Темнее при наведении */
 }
 
+/* Стили для планшетов и маленьких десктопов */
 @media (max-width: 991.98px) {
     .header {
         position: relative;
+        padding-top: max(env(safe-area-inset-top, 0), 10px);
     }
 
     .navbar {
@@ -473,6 +477,25 @@ footer p {
 
     .navbar-toggler {
         cursor: pointer;
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        border-radius: 4px;
+        background: transparent;
+        font-size: 1.2rem;
+        min-width: 44px; /* Минимальный размер для touch */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navbar-toggler:hover {
+        background-color: #f8f9fa;
+    }
+
+    .navbar-toggler:focus {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
     }
 
     .navbar-collapse {
@@ -489,5 +512,119 @@ footer p {
 
     .navbar-collapse.show {
         display: block;
+    }
+
+    /* Мобильные ссылки навигации */
+    .navbar-nav .nav-link {
+        padding: 12px 15px;
+        margin: 5px 0;
+        display: block;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+        min-height: 44px; /* Минимальный размер для touch */
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link:focus {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .artist-name {
+        font-size: 1.5rem; /* Уменьшаем размер шрифта для планшетов */
+    }
+
+    .projects {
+        grid-template-columns: repeat(2, 1fr); /* Две колонки для планшетов */
+        gap: 15px;
+    }
+}
+
+/* Стили для смартфонов */
+@media (max-width: 768px) {
+    .header {
+        padding-top: max(env(safe-area-inset-top, 0), 15px);
+        min-height: 60px;
+    }
+
+    .header-content {
+        height: auto;
+        min-height: 50px;
+        padding: 10px 0;
+    }
+
+    .artist-name {
+        font-size: 1.2rem; /* Еще меньше для смартфонов */
+        padding: 5px 10px;
+    }
+
+    .label-image {
+        max-height: 60px;
+        margin-top: 10px;
+    }
+
+    .container {
+        padding: 0 15px;
+    }
+
+    .projects {
+        grid-template-columns: 1fr; /* Одна колонка для смартфонов */
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .about-container {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .about-description,
+    .about-avatar {
+        width: 100%;
+        margin-top: 20px;
+        padding-left: 0;
+    }
+
+    .filter-projects-container {
+        padding: 0 15px;
+    }
+
+    .blog {
+        width: 95%;
+        margin: 5px auto;
+    }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media (max-width: 480px) {
+    .header {
+        padding-top: max(env(safe-area-inset-top, 0), 20px);
+    }
+
+    .artist-name {
+        font-size: 1rem;
+        padding: 5px;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 8px 5px;
+    }
+
+    .project-title {
+        font-size: 20px;
+        margin-top: 30px;
+    }
+
+    .blog-title {
+        font-size: 20px;
+        margin-top: 30px;
+    }
+
+    .project-text,
+    .blog-text {
+        font-size: 16px;
+        padding: 0 10px;
     }
 }
