@@ -5,8 +5,8 @@ services:
     env_file:
       - .env
     volumes:
-      # - pg_data:/var/lib/postgresql/
-      - ./database/pg_data:/var/lib/postgresql/data
+      # - ./database/pg_data:/var/lib/postgresql/data  было
+      - pg_data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     healthcheck:
@@ -20,9 +20,10 @@ services:
     build: ./
     restart: always
     volumes:
-      - static_data:/app/victoria_site/static
-      # - ./victoria_site/static/media:/app/victoria_site/static/media
-      # - ./victoria_site/static/user_images:/app/victoria_site/static/user_images
+      # - static_data:/app/victoria_site/static было
+      - static_files:/app/victoria_site/static
+      - media_files:/app/victoria_site/static/media
+      - user_images_files:/app/victoria_site/static/user_images
     depends_on:
       db:
         condition: service_healthy
@@ -37,15 +38,38 @@ services:
       - 8001:80
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - static_data:/backend_static
-      # - ./victoria_site/static:/backend_static
-      # - ./victoria_site/static/media:/backend_static/media
-      # - ./victoria_site/static/user_images:/backend_static/user_images
+      # - static_data:/backend_static было
+      - static_files:/backend_static
+      - media_files:/backend_media
+      - user_images_files:/backend_user_images
     depends_on:
       - backend
     restart: always
 
 volumes:
   pg_data:
-  static_data:
-  # media_data:
+    # Для базы данных используем именованный том для персистентности
+    driver: local
+  # static_data: было
+  static_files:
+    # Статические файлы: CSS, JS, fonts, images
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static
+  media_files:
+    # Медиа-файлы загруженные через админку
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static/media
+
+  user_images_files:
+    # Пользовательские изображения
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static/user_images
