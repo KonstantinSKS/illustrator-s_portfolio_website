@@ -49,27 +49,27 @@ services:
 volumes:
   pg_data:
     # Для базы данных используем именованный том для персистентности
-    driver: local
+    # driver: local
   # static_data: было
   static_files:
     # Статические файлы: CSS, JS, fonts, images
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./victoria_site/static
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static
   media_files:
     # Медиа-файлы загруженные через админку
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./victoria_site/static/media
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static/media
 
   user_images_files:
     # Пользовательские изображения
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./victoria_site/static/user_images
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   o: bind
+    #   device: ./victoria_site/static/user_images
